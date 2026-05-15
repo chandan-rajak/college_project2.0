@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Resume Builder — GCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#1a3faa;--pl:#2d5be3;--acc:#f59e0b;--bg:#f0f4ff;--surf:#fff;--txt:#0f1b3d;--muted:#6b7280;--border:#e2e8f0;--rad:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--txt);}
+.topbar{background:var(--p);color:white;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;font-size:14px;}
+.logo{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;}
+.hero-strip{background:linear-gradient(135deg,#10b981,#059669);color:white;padding:40px 28px;text-align:center;}
+.hero-strip h1{font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;margin-bottom:8px;}
+.hero-strip p{opacity:.85;font-size:16px;}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:28px 20px;}
+@media(max-width:768px){.layout{grid-template-columns:1fr;}}
+.form-panel{background:var(--surf);border-radius:var(--rad);padding:28px;box-shadow:0 4px 20px rgba(26,63,170,.08);border:1px solid var(--border);}
+.form-panel h2{font-family:'Baloo 2',cursive;font-size:20px;color:var(--p);margin-bottom:18px;font-weight:800;}
+.section-title{font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;color:var(--p);margin:20px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--bg);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-row.full{grid-template-columns:1fr;}
+.fld label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;}
+.fld input,.fld textarea,.fld select{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:14px;color:var(--txt);background:var(--bg);transition:border .2s;}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:none;border-color:var(--p);}
+.fld textarea{resize:vertical;min-height:70px;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);min-height:44px;}
+.skill-tag{background:var(--p);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.skill-tag span{cursor:pointer;opacity:.7;}
+.skill-tag span:hover{opacity:1;}
+.skill-input-row{display:flex;gap:8px;margin-top:8px;}
+.skill-input-row input{flex:1;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:14px;background:var(--bg);color:var(--txt);}
+.skill-input-row button{background:var(--p);color:white;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:700;font-family:'Baloo 2',cursive;}
+.add-btn{background:var(--bg);border:1.5px dashed var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;width:100%;margin-top:8px;transition:all .2s;}
+.add-btn:hover{border-color:var(--p);color:var(--p);}
+.gen-btn{width:100%;padding:14px;background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;border-radius:50px;font-family:'Baloo 2',cursive;font-size:17px;font-weight:800;cursor:pointer;margin-top:20px;box-shadow:0 4px 20px rgba(16,185,129,.3);transition:all .25s;}
+.gen-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(16,185,129,.4);}
+.gen-btn:disabled{opacity:.6;cursor:wait;}
+/* Preview panel */
+.preview-panel{background:var(--surf);border-radius:var(--rad);padding:28px;box-shadow:0 4px 20px rgba(26,63,170,.08);border:1px solid var(--border);position:sticky;top:20px;max-height:90vh;overflow-y:auto;}
+.preview-panel h2{font-family:'Baloo 2',cursive;font-size:20px;color:var(--p);margin-bottom:18px;font-weight:800;}
+.resume-out{background:white;border:1px solid #ddd;border-radius:8px;padding:28px;font-size:13px;line-height:1.6;min-height:400px;white-space:pre-wrap;color:#222;font-family:'Courier New',monospace;}
+.placeholder-msg{color:var(--muted);text-align:center;padding:60px 20px;font-size:15px;}
+.status{padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:14px;font-weight:600;}
+.status.loading{background:#dbeafe;color:#1d4ed8;}
+.status.success{background:#d1fae5;color:#065f46;}
+.status.error{background:#fee2e2;color:#991b1b;}
+.dl-btn{width:100%;padding:12px;background:var(--p);color:white;border:none;border-radius:10px;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;display:none;transition:all .2s;}
+.dl-btn:hover{background:var(--pl);}
+.entry-block{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;position:relative;}
+.del-entry{position:absolute;top:10px;right:10px;background:#fee2e2;border:none;color:#ef4444;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:12px;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="logo">🎓 GCE Tools</span>
+  <a href="index.html">← Back to Main Site</a>
+</div>
+<div class="hero-strip">
+  <h1>📄 AI Resume Builder</h1>
+  <p>Fill your details → Claude AI generates a professional engineering resume instantly</p>
+</div>
+
+<div class="layout">
+  <!-- FORM -->
+  <div class="form-panel">
+    <h2>Your Information</h2>
+
+    <div class="section-title">👤 Personal Details</div>
+    <div class="form-row">
+      <div class="fld"><label>Full Name *</label><input id="name" placeholder="e.g. Rahul Kumar Singh"/></div>
+      <div class="fld"><label>Phone *</label><input id="phone" placeholder="+91 9876543210"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fld"><label>Email *</label><input id="email" placeholder="rahul@gmail.com"/></div>
+      <div class="fld"><label>LinkedIn</label><input id="linkedin" placeholder="linkedin.com/in/rahul"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fld"><label>GitHub</label><input id="github" placeholder="github.com/rahul"/></div>
+      <div class="fld"><label>City</label><input id="city" placeholder="Gaya, Bihar"/></div>
+    </div>
+
+    <div class="section-title">🎓 Education</div>
+    <div class="form-row">
+      <div class="fld"><label>Degree *</label><input id="degree" placeholder="B.Tech CSE"/></div>
+      <div class="fld"><label>College</label><input id="college" value="Gaya College of Engineering"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fld"><label>CGPA *</label><input id="cgpa" placeholder="7.8" type="number" step="0.01"/></div>
+      <div class="fld"><label>Graduation Year</label><input id="gradYear" placeholder="2025"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fld"><label>12th % / Board</label><input id="twelfth" placeholder="82% — BSEB 2021"/></div>
+      <div class="fld"><label>10th % / Board</label><input id="tenth" placeholder="91% — BSEB 2019"/></div>
+    </div>
+
+    <div class="section-title">🛠️ Skills</div>
+    <div id="skillTags" class="skill-tags"></div>
+    <div class="skill-input-row">
+      <input id="skillInput" placeholder="Type a skill (e.g. Python, React, SQL)" onkeypress="if(event.key==='Enter')addSkill()"/>
+      <button onclick="addSkill()">Add</button>
+    </div>
+
+    <div class="section-title">💻 Projects</div>
+    <div id="projectsList"></div>
+    <button class="add-btn" onclick="addProject()">+ Add Project</button>
+
+    <div class="section-title">🏆 Achievements & Certifications</div>
+    <div class="form-row full">
+      <div class="fld"><label>Achievements (one per line)</label>
+        <textarea id="achievements" placeholder="Won GCE Hackathon 2024&#10;AIR 12000 in JEE Main 2021&#10;Google Cloud Certified Associate"></textarea>
+      </div>
+    </div>
+
+    <div class="section-title">📋 Internships / Experience</div>
+    <div id="internList"></div>
+    <button class="add-btn" onclick="addIntern()">+ Add Internship</button>
+
+    <div class="section-title">🎯 Job Target</div>
+    <div class="form-row">
+      <div class="fld"><label>Target Role</label><input id="targetRole" placeholder="Software Engineer / SDE-1"/></div>
+      <div class="fld"><label>Target Companies</label><input id="targetCo" placeholder="TCS, Wipro, Infosys"/></div>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="generateResume()">✨ Generate AI Resume</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-panel">
+    <h2>📋 Resume Preview</h2>
+    <div id="statusMsg"></div>
+    <div class="resume-out" id="resumeOut"><div class="placeholder-msg">🤖 Fill your details on the left and click<br><strong>"Generate AI Resume"</strong><br><br>Claude AI will create a professional,<br>ATS-friendly resume for you!</div></div>
+    <button class="dl-btn" id="dlBtn" onclick="downloadResume()">📥 Download as Text</button>
+  </div>
+</div>
+
+<script>
+let skills=[];
+let projects=[];
+let interns=[];
+
+// Default skills
+['C++','Python','Java','HTML/CSS','Git'].forEach(s=>addSkillDirect(s));
+
+function addSkillDirect(s){
+  skills.push(s);
+  renderSkills();
+}
+
+function addSkill(){
+  const inp=document.getElementById('skillInput');
+  const v=inp.value.trim();
+  if(v&&!skills.includes(v)){skills.push(v);renderSkills();}
+  inp.value='';
+}
+
+function removeSkill(s){
+  skills=skills.filter(x=>x!==s);
+  renderSkills();
+}
+
+function renderSkills(){
+  document.getElementById('skillTags').innerHTML=skills.map(s=>`<span class="skill-tag">${s}<span onclick="removeSkill('${s}')">✕</span></span>`).join('');
+}
+
+let projCount=0;
+function addProject(){
+  projCount++;
+  const id='proj'+projCount;
+  const div=document.createElement('div');
+  div.className='entry-block';
+  div.id=id;
+  div.innerHTML=`<button class="del-entry" onclick="document.getElementById('${id}').remove()">✕</button>
+    <div class="form-row"><div class="fld"><label>Project Title</label><input id="${id}_title" placeholder="e.g. College ERP System"/></div>
+    <div class="fld"><label>Tech Stack</label><input id="${id}_tech" placeholder="React, Node.js, MongoDB"/></div></div>
+    <div class="form-row full"><div class="fld"><label>Description</label><textarea id="${id}_desc" placeholder="Brief description of what the project does and your role..."></textarea></div></div>
+    <div class="form-row"><div class="fld"><label>GitHub Link</label><input id="${id}_link" placeholder="github.com/..."/></div>
+    <div class="fld"><label>Duration</label><input id="${id}_dur" placeholder="Jan 2024 – Apr 2024"/></div></div>`;
+  document.getElementById('projectsList').appendChild(div);
+}
+
+let internCount=0;
+function addIntern(){
+  internCount++;
+  const id='intern'+internCount;
+  const div=document.createElement('div');
+  div.className='entry-block';
+  div.id=id;
+  div.innerHTML=`<button class="del-entry" onclick="document.getElementById('${id}').remove()">✕</button>
+    <div class="form-row"><div class="fld"><label>Company</label><input id="${id}_co" placeholder="TCS iON / Internshala..."/></div>
+    <div class="fld"><label>Role</label><input id="${id}_role" placeholder="Web Dev Intern"/></div></div>
+    <div class="form-row"><div class="fld"><label>Duration</label><input id="${id}_dur" placeholder="May – Jul 2024"/></div>
+    <div class="fld"><label>Mode</label><select id="${id}_mode"><option>Remote</option><option>On-site</option><option>Hybrid</option></select></div></div>
+    <div class="form-row full"><div class="fld"><label>Work Done</label><textarea id="${id}_work" placeholder="Describe your responsibilities and impact..."></textarea></div></div>`;
+  document.getElementById('internList').appendChild(div);
+}
+
+function getFormData(){
+  // Projects
+  const projs=[];
+  document.querySelectorAll('[id^="proj"][id$="_title"]').forEach(el=>{
+    const id=el.id.replace('_title','');
+    projs.push({
+      title:el.value,
+      tech:document.getElementById(id+'_tech')?.value||'',
+      desc:document.getElementById(id+'_desc')?.value||'',
+      link:document.getElementById(id+'_link')?.value||'',
+      dur:document.getElementById(id+'_dur')?.value||''
+    });
+  });
+  // Interns
+  const ints=[];
+  document.querySelectorAll('[id^="intern"][id$="_co"]').forEach(el=>{
+    const id=el.id.replace('_co','');
+    ints.push({
+      co:el.value,
+      role:document.getElementById(id+'_role')?.value||'',
+      dur:document.getElementById(id+'_dur')?.value||'',
+      mode:document.getElementById(id+'_mode')?.value||'',
+      work:document.getElementById(id+'_work')?.value||''
+    });
+  });
+  return {
+    name:document.getElementById('name').value,
+    phone:document.getElementById('phone').value,
+    email:document.getElementById('email').value,
+    linkedin:document.getElementById('linkedin').value,
+    github:document.getElementById('github').value,
+    city:document.getElementById('city').value,
+    degree:document.getElementById('degree').value,
+    college:document.getElementById('college').value,
+    cgpa:document.getElementById('cgpa').value,
+    gradYear:document.getElementById('gradYear').value,
+    twelfth:document.getElementById('twelfth').value,
+    tenth:document.getElementById('tenth').value,
+    skills,projs,ints,
+    achievements:document.getElementById('achievements').value,
+    targetRole:document.getElementById('targetRole').value,
+    targetCo:document.getElementById('targetCo').value
+  };
+}
+
+const GROQ_API_KEY = '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';
+  async function generateResume(){
+  const data=getFormData();
+  if(!data.name||!data.email||!data.cgpa){alert('Please fill Name, Email and CGPA at minimum!');return;}
+
+  const btn=document.getElementById('genBtn');
+  btn.disabled=true; btn.textContent='⏳ Generating...';
+  setStatus('loading','🤖 Claude AI is crafting your resume...');
+
+  const prompt=`Create a professional, ATS-friendly engineering resume for a student from Gaya College of Engineering (GCE), Bihar, India.
+
+Student Data:
+- Name: ${data.name}
+- Phone: ${data.phone} | Email: ${data.email}
+- LinkedIn: ${data.linkedin||'N/A'} | GitHub: ${data.github||'N/A'}
+- City: ${data.city}
+- Degree: ${data.degree} from ${data.college} | CGPA: ${data.cgpa} | Year: ${data.gradYear}
+- 12th: ${data.twelfth} | 10th: ${data.tenth}
+- Skills: ${data.skills.join(', ')}
+- Projects: ${data.projs.map(p=>`${p.title} (${p.tech}) — ${p.desc} [${p.dur}]${p.link?' | '+p.link:''}`).join('; ')||'None provided'}
+- Internships: ${data.ints.map(i=>`${i.role} at ${i.co} (${i.dur}, ${i.mode}) — ${i.work}`).join('; ')||'None'}
+- Achievements: ${data.achievements||'None'}
+- Target Role: ${data.targetRole||'Software Engineer'} at ${data.targetCo||'top IT companies'}
+
+Generate a clean, well-formatted resume in plain text format with these sections:
+1. HEADER (name, contact info, links)
+2. OBJECTIVE (2-3 lines tailored to target role)
+3. EDUCATION (formatted neatly)
+4. TECHNICAL SKILLS (categorized: Languages, Web, Tools, etc.)
+5. PROJECTS (with bullet points highlighting impact)
+6. INTERNSHIPS / EXPERIENCE (if any)
+7. ACHIEVEMENTS & CERTIFICATIONS
+8. EXTRA-CURRICULAR (mention GCE activities if nothing provided)
+
+Make it impactful, quantified where possible, action-verb driven. Format cleanly with clear section dividers. Keep it to 1 page worth of content.`;
+
+  try {
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_API_KEY}`},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const d=await res.json();
+    const text=d.choices[0].message.content;
+    document.getElementById('resumeOut').textContent=text;
+    document.getElementById('resumeOut').style.whiteSpace='pre-wrap';
+    setStatus('success','✅ Resume generated! Review and download below.');
+    document.getElementById('dlBtn').style.display='block';
+  } catch(e){
+    setStatus('error','❌ AI error. Please try again.');
+  }
+  btn.disabled=false; btn.textContent='✨ Generate AI Resume';
+}
+
+function setStatus(type,msg){
+  const el=document.getElementById('statusMsg');
+  el.className='status '+type;
+  el.textContent=msg;
+  el.style.display='block';
+}
+
+function downloadResume(){
+  const text=document.getElementById('resumeOut').textContent;
+  const name=document.getElementById('name').value||'resume';
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name.replace(/\s+/g,'_')+'_Resume.txt';
+  a.click();
+}
+
+// Add default project
+addProject();
+</script>
+</body>
+</html>

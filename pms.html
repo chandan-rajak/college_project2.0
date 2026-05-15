@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMS Scholarship Helper — GCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#1a3faa;--pl:#2d5be3;--acc:#f59e0b;--bg:#f0f4ff;--surf:#fff;--txt:#0f1b3d;--muted:#6b7280;--border:#e2e8f0;--rad:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--txt);}
+.topbar{background:var(--p);color:white;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;font-size:14px;}
+.logo{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;}
+.hero-strip{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:white;padding:40px 28px;text-align:center;}
+.hero-strip h1{font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;margin-bottom:8px;}
+.hero-strip p{opacity:.85;font-size:16px;}
+.container{max-width:900px;margin:0 auto;padding:28px 20px;}
+.steps-bar{display:flex;gap:0;margin-bottom:32px;background:var(--surf);border-radius:var(--rad);overflow:hidden;box-shadow:0 2px 12px rgba(26,63,170,.08);}
+.step{flex:1;padding:14px 10px;text-align:center;font-family:'Baloo 2',cursive;font-size:13px;font-weight:700;color:var(--muted);border-right:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;}
+.step:last-child{border-right:none;}
+.step.active{background:var(--p);color:white;}
+.step.done{background:#d1fae5;color:#065f46;}
+.step .snum{display:block;font-size:20px;margin-bottom:2px;}
+.card{background:var(--surf);border-radius:var(--rad);padding:28px;box-shadow:0 4px 20px rgba(26,63,170,.08);border:1px solid var(--border);margin-bottom:20px;}
+.card h2{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--p);margin-bottom:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-row.full{grid-template-columns:1fr;}
+.fld label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:14px;color:var(--txt);background:var(--bg);transition:border .2s;}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--p);}
+.fld textarea{resize:vertical;min-height:80px;}
+.eligibility-check{background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:var(--rad);padding:24px;margin-bottom:20px;}
+.elig-title{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:#4f46e5;margin-bottom:16px;}
+.elig-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:white;border-radius:10px;margin-bottom:8px;font-size:14px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.elig-item .icon{font-size:20px;}
+.checklist{list-style:none;}
+.checklist li{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:8px;font-size:14px;background:var(--bg);border:1px solid var(--border);}
+.checklist li input[type=checkbox]{width:18px;height:18px;accent-color:var(--p);flex-shrink:0;margin-top:2px;}
+.checklist li label{cursor:pointer;line-height:1.5;}
+.checklist li label strong{display:block;color:var(--p);margin-bottom:2px;}
+.deadline-card{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:var(--rad);padding:20px;border:1px solid #fcd34d;margin-bottom:20px;}
+.deadline-card h3{font-family:'Baloo 2',cursive;font-size:18px;color:#92400e;margin-bottom:12px;}
+.deadline-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(146,64,14,.15);font-size:14px;}
+.deadline-item:last-child{border-bottom:none;}
+.deadline-item .date{font-weight:700;color:#92400e;}
+.process-steps{counter-reset:step;}
+.process-step{display:flex;gap:16px;padding:16px;background:var(--bg);border-radius:12px;margin-bottom:10px;border:1px solid var(--border);}
+.process-step-num{width:36px;height:36px;background:var(--p);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-weight:800;font-size:16px;flex-shrink:0;}
+.process-step-content h4{font-family:'Baloo 2',cursive;font-weight:700;color:var(--p);margin-bottom:4px;}
+.process-step-content p{font-size:13px;color:var(--muted);line-height:1.6;}
+.btn-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;}
+.btn{padding:12px 28px;border-radius:50px;border:none;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
+.btn-primary{background:var(--p);color:white;box-shadow:0 4px 14px rgba(26,63,170,.3);}
+.btn-primary:hover{background:var(--pl);transform:translateY(-1px);}
+.btn-purple{background:#7c3aed;color:white;}
+.btn-purple:hover{background:#6d28d9;}
+.result-banner{padding:20px;border-radius:var(--rad);margin-bottom:16px;display:none;}
+.result-banner.eligible{background:#d1fae5;border:1px solid #6ee7b7;}
+.result-banner.ineligible{background:#fee2e2;border:1px solid #fca5a5;}
+.result-banner h3{font-family:'Baloo 2',cursive;font-size:20px;margin-bottom:8px;}
+.ai-draft{background:var(--surf);border:2px solid #7c3aed;border-radius:var(--rad);padding:20px;white-space:pre-wrap;font-size:13px;line-height:1.7;min-height:200px;color:var(--txt);font-family:'Courier New',monospace;}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="logo">🎓 GCE Tools</span>
+  <a href="index.html">← Back to Main Site</a>
+</div>
+<div class="hero-strip">
+  <h1>🏅 PMS Scholarship Helper</h1>
+  <p>Check eligibility, get document checklist, and auto-generate your application draft</p>
+</div>
+
+<div class="container">
+  <div class="steps-bar">
+    <div class="step active" id="step1"><span class="snum">1</span>Eligibility</div>
+    <div class="step" id="step2"><span class="snum">2</span>Documents</div>
+    <div class="step" id="step3"><span class="snum">3</span>Process</div>
+    <div class="step" id="step4"><span class="snum">4</span>AI Draft</div>
+  </div>
+
+  <!-- STEP 1: ELIGIBILITY CHECK -->
+  <div id="s1">
+    <div class="card">
+      <h2>Check Your Eligibility</h2>
+      <div class="form-row">
+        <div class="fld">
+          <label>Caste Category *</label>
+          <select id="caste">
+            <option value="">Select...</option>
+            <option value="SC">SC (Scheduled Caste)</option>
+            <option value="ST">ST (Scheduled Tribe)</option>
+            <option value="BC">BC (Backward Class)</option>
+            <option value="EBC">EBC (Extremely Backward Class)</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Annual Family Income *</label>
+          <select id="income">
+            <option value="">Select...</option>
+            <option value="below1">Below ₹1 Lakh</option>
+            <option value="1to2.5">₹1 – ₹2.5 Lakh</option>
+            <option value="2.5to3.5">₹2.5 – ₹3.5 Lakh</option>
+            <option value="above3.5">Above ₹3.5 Lakh</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fld">
+          <label>Domicile State</label>
+          <select id="domicile">
+            <option value="Bihar">Bihar</option>
+            <option value="Other">Other State</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Are you already getting any state scholarship?</label>
+          <select id="otherSchol">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fld">
+          <label>Academic Status</label>
+          <select id="academic">
+            <option value="regular">Regular Student (No Backlog)</option>
+            <option value="backlog">Has Active Backlogs</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Current Semester</label>
+          <select id="semester">
+            <option value="1">1st Semester</option>
+            <option value="2">2nd Semester</option>
+            <option value="3">3rd Semester</option>
+            <option value="4">4th Semester</option>
+            <option value="5">5th Semester</option>
+            <option value="6">6th Semester</option>
+            <option value="7">7th Semester</option>
+            <option value="8">8th Semester</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkEligibility()">Check Eligibility →</button>
+      </div>
+      <div id="eligResult" class="result-banner"></div>
+    </div>
+  </div>
+
+  <!-- STEP 2: DOCUMENTS -->
+  <div id="s2" style="display:none">
+    <div class="card">
+      <h2>📋 Document Checklist</h2>
+      <p style="color:var(--muted);margin-bottom:16px;font-size:14px;">Tick each document as you collect it. Keep originals + 2 photocopies of each.</p>
+      <ul class="checklist" id="docChecklist"></ul>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="goStep(3)">Next: Application Process →</button>
+        <button class="btn" style="background:var(--bg);border:1.5px solid var(--border)" onclick="goStep(1)">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: PROCESS -->
+  <div id="s3" style="display:none">
+    <div class="deadline-card">
+      <h3>⏰ Important Deadlines (Typical Academic Year)</h3>
+      <div class="deadline-item"><span>Portal Opens</span><span class="date">August – September</span></div>
+      <div class="deadline-item"><span>Application Last Date</span><span class="date">October – November</span></div>
+      <div class="deadline-item"><span>College Verification</span><span class="date">November – December</span></div>
+      <div class="deadline-item"><span>Disbursement</span><span class="date">January – March</span></div>
+    </div>
+    <div class="card">
+      <h2>🗺️ Step-by-Step Application Process</h2>
+      <div class="process-step"><div class="process-step-num">1</div><div class="process-step-content"><h4>Register on PMS Portal</h4><p>Visit pmsonline.bih.nic.in → Click "New Student Registration" → Fill basic details and get login credentials.</p></div></div>
+      <div class="process-step"><div class="process-step-num">2</div><div class="process-step-content"><h4>Fill Application Form Online</h4><p>Log in → Fill personal details, education details, bank account details (must be in your name), and upload documents.</p></div></div>
+      <div class="process-step"><div class="process-step-num">3</div><div class="process-step-content"><h4>Upload Required Documents</h4><p>Upload scanned copies of: Caste certificate, Income certificate, Aadhaar card, Bank passbook, College ID, fee receipt, and photos.</p></div></div>
+      <div class="process-step"><div class="process-step-num">4</div><div class="process-step-content"><h4>Submit & Print Application</h4><p>Review all details carefully → Submit → Print the filled application form. Keep it safe.</p></div></div>
+      <div class="process-step"><div class="process-step-num">5</div><div class="process-step-content"><h4>College Verification</h4><p>Submit printed form + original documents to your college's scholarship section. The Nodal Officer will verify and forward.</p></div></div>
+      <div class="process-step"><div class="process-step-num">6</div><div class="process-step-content"><h4>Track Status & Receive Amount</h4><p>Track status on the portal using your application ID. Amount is transferred directly to your bank account via DBT.</p></div></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="goStep(4)">Next: Generate AI Draft →</button>
+        <button class="btn" style="background:var(--bg);border:1.5px solid var(--border)" onclick="goStep(2)">← Back</button>
+        <a href="https://pmsonline.bih.nic.in" target="_blank"><button class="btn btn-purple">🌐 Go to PMS Portal</button></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: AI DRAFT -->
+  <div id="s4" style="display:none">
+    <div class="card">
+      <h2>🤖 AI Application Draft Generator</h2>
+      <p style="color:var(--muted);margin-bottom:18px;font-size:14px;">Generate a formal application letter for PMS scholarship to submit to your college.</p>
+      <div class="form-row">
+        <div class="fld"><label>Your Full Name</label><input id="draftName" placeholder="Rahul Kumar Singh"/></div>
+        <div class="fld"><label>Roll Number</label><input id="draftRoll" placeholder="21CSE042"/></div>
+      </div>
+      <div class="form-row">
+        <div class="fld"><label>Branch & Year</label><input id="draftBranch" placeholder="CSE, 3rd Year"/></div>
+        <div class="fld"><label>Father's Name</label><input id="draftFather" placeholder="Shri Suresh Kumar Singh"/></div>
+      </div>
+      <div class="form-row">
+        <div class="fld"><label>Village/Town</label><input id="draftVillage" placeholder="Bodh Gaya, Gaya"/></div>
+        <div class="fld"><label>District</label><input id="draftDistrict" placeholder="Gaya, Bihar"/></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-purple" id="draftBtn" onclick="generateDraft()">✨ Generate Application Letter</button>
+        <button class="btn" style="background:var(--bg);border:1.5px solid var(--border)" onclick="goStep(3)">← Back</button>
+      </div>
+      <div id="draftStatus" style="display:none;margin:12px 0;padding:12px;border-radius:8px;background:#dbeafe;color:#1d4ed8;font-weight:600;font-size:14px;">🤖 Generating your application letter...</div>
+      <div id="draftOutput" style="display:none;margin-top:16px;">
+        <p style="font-family:'Baloo 2',cursive;font-weight:700;color:var(--p);margin-bottom:10px;">Your Application Letter:</p>
+        <div class="ai-draft" id="draftText"></div>
+        <button class="btn btn-primary" style="margin-top:12px" onclick="downloadDraft()">📥 Download Letter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const docs={
+  SC:['Caste Certificate (SC) from SDO/DM','Income Certificate (Annual family income proof)','Aadhaar Card (Student)','Aadhaar Card (Parent/Guardian)','Bank Passbook (in your name, linked to Aadhaar)','College Fee Receipt (current semester)','College ID Card','Admission Letter / Enrollment Certificate','Passport Size Photos (4 copies)','10th Marksheet','12th Marksheet','College Marksheets (all previous semesters)'],
+  ST:['Caste Certificate (ST) from SDO/DM','Income Certificate','Aadhaar Card (Student)','Aadhaar Card (Parent/Guardian)','Bank Passbook (Aadhaar linked)','College Fee Receipt','College ID Card','Admission Letter','Passport Size Photos (4 copies)','10th Marksheet','12th Marksheet','College Marksheets'],
+  BC:['Caste Certificate (BC) from SDO/DM','Income Certificate (must be below ₹1.5 Lakh for BC)','Aadhaar Card (Student)','Aadhaar Card (Parent)','Bank Passbook (Aadhaar linked)','College Fee Receipt','College ID Card','Admission Letter','Passport Size Photos (4 copies)','10th Marksheet','12th Marksheet','College Marksheets'],
+  EBC:['Caste Certificate (EBC) from SDO/DM','Income Certificate (must be below ₹1 Lakh for EBC)','Aadhaar Card (Student)','Aadhaar Card (Parent)','Bank Passbook (Aadhaar linked)','College Fee Receipt','College ID Card','Admission Letter','Passport Size Photos (4 copies)','10th Marksheet','12th Marksheet','College Marksheets']
+};
+
+let selectedCaste='SC';
+
+function checkEligibility(){
+  const caste=document.getElementById('caste').value;
+  const income=document.getElementById('income').value;
+  const domicile=document.getElementById('domicile').value;
+  const other=document.getElementById('otherSchol').value;
+  const academic=document.getElementById('academic').value;
+  if(!caste||!income){alert('Please select caste and income!');return;}
+
+  const res=document.getElementById('eligResult');
+  let eligible=true;
+  let reasons=[];
+  let ok=[];
+
+  if(['SC','ST','BC','EBC'].includes(caste)){ok.push('✅ Category eligible: '+caste);}
+  else{eligible=false;reasons.push('❌ General category is not eligible for PMS Bihar');}
+
+  if(income==='above3.5'){
+    if(caste==='SC'||caste==='ST'){ok.push('✅ SC/ST income limit: ₹2.5L (check exact limit)');}
+    else{eligible=false;reasons.push('❌ Income too high for BC/EBC category');}
+  } else {ok.push('✅ Income within eligible range');}
+
+  if(domicile==='Bihar'){ok.push('✅ Bihar domicile — eligible');}
+  else{eligible=false;reasons.push('❌ Must be Bihar domicile student');}
+
+  if(other==='yes'){eligible=false;reasons.push('❌ Cannot receive PMS if already getting another state scholarship');}
+  if(academic==='backlog'){reasons.push('⚠️ Active backlogs may affect renewal — check with college');}
+  else ok.push('✅ No backlogs — good academic standing');
+
+  res.className='result-banner '+(eligible?'eligible':'ineligible');
+  res.style.display='block';
+  res.innerHTML=`<h3>${eligible?'🎉 You Are Likely Eligible!':'❌ May Not Be Eligible'}</h3>
+    ${ok.map(o=>`<div style="font-size:14px;margin-bottom:4px;">${o}</div>`).join('')}
+    ${reasons.map(r=>`<div style="font-size:14px;margin-bottom:4px;">${r}</div>`).join('')}
+    ${eligible?`<button class="btn btn-primary" style="margin-top:12px" onclick="goStep(2)">Continue → See Document Checklist</button>`:''}`;
+
+  if(eligible){selectedCaste=caste;buildDocList(caste);}
+}
+
+function buildDocList(caste){
+  const list=docs[caste]||docs['SC'];
+  document.getElementById('docChecklist').innerHTML=list.map((d,i)=>`
+    <li><input type="checkbox" id="doc${i}"/><label for="doc${i}"><strong>${d}</strong>Keep original + 2 photocopies. Self-attest each copy.</label></li>
+  `).join('');
+}
+
+function goStep(n){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('s'+i).style.display=i===n?'block':'none';
+    const s=document.getElementById('step'+i);
+    if(i<n)s.className='step done';
+    else if(i===n)s.className='step active';
+    else s.className='step';
+  });
+  window.scrollTo(0,0);
+}
+
+const GROQ_API_KEY = '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';
+  async function generateDraft(){
+  const name=document.getElementById('draftName').value||'[Your Name]';
+  const roll=document.getElementById('draftRoll').value||'[Roll No]';
+  const branch=document.getElementById('draftBranch').value||'[Branch & Year]';
+  const father=document.getElementById('draftFather').value||'[Father Name]';
+  const village=document.getElementById('draftVillage').value||'[Village/Town]';
+  const district=document.getElementById('draftDistrict').value||'[District]';
+
+  document.getElementById('draftBtn').disabled=true;
+  document.getElementById('draftStatus').style.display='block';
+
+  const prompt=`Write a formal application letter for PMS (Post Matric Scholarship) from a student to the Principal of Gaya College of Engineering, Gaya, Bihar.
+
+Student Details:
+- Name: ${name}
+- Roll Number: ${roll}
+- Branch & Year: ${branch}
+- Father's Name: ${father}
+- Village/Town: ${village}
+- District: ${district}, Bihar
+- Category: ${selectedCaste}
+- Institute: Gaya College of Engineering, Gaya, Bihar
+
+Write a professional, formal application letter in English requesting PMS scholarship. Include: proper salutation, clear request, mention of category and financial need, list of enclosed documents (caste certificate, income certificate, aadhaar, bank details, fee receipt, marksheets), and a respectful closing. Format it properly with date, address, subject line, and signature section. Keep it concise and official.`;
+
+  try{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_API_KEY}`},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const d=await res.json();
+    document.getElementById('draftText').textContent=d.choices[0].message.content;
+    document.getElementById('draftOutput').style.display='block';
+  }catch(e){
+    document.getElementById('draftText').textContent='Error generating draft. Please try again.';
+    document.getElementById('draftOutput').style.display='block';
+  }
+  document.getElementById('draftStatus').style.display='none';
+  document.getElementById('draftBtn').disabled=false;
+}
+
+function downloadDraft(){
+  const text=document.getElementById('draftText').textContent;
+  const name=document.getElementById('draftName').value||'student';
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name.replace(/\s+/g,'_')+'_PMS_Application.txt';
+  a.click();
+}
+</script>
+</body>
+</html>

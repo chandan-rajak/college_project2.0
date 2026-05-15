@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Map & Doubt Forum — GCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#1a3faa;--pl:#2d5be3;--acc:#f59e0b;--bg:#f0f4ff;--surf:#fff;--txt:#0f1b3d;--muted:#6b7280;--border:#e2e8f0;--rad:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--txt);}
+.topbar{background:var(--p);color:white;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;font-size:14px;}
+.logo{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;}
+.tabs-nav{display:flex;gap:0;background:var(--surf);border-bottom:2px solid var(--border);padding:0 20px;}
+.tab-btn{padding:16px 24px;font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab-btn.active{color:var(--p);border-bottom-color:var(--p);}
+.tab-panel{display:none;padding:24px 20px;max-width:1100px;margin:0 auto;}
+.tab-panel.active{display:block;}
+
+/* MAP */
+.map-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;}
+@media(max-width:700px){.map-layout{grid-template-columns:1fr;}}
+.building-list{background:var(--surf);border-radius:var(--rad);padding:20px;border:1px solid var(--border);max-height:600px;overflow-y:auto;}
+.building-list h3{font-family:'Baloo 2',cursive;font-weight:800;color:var(--p);margin-bottom:14px;}
+.b-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;cursor:pointer;transition:all .2s;margin-bottom:4px;border:1.5px solid transparent;}
+.b-item:hover{background:var(--bg);border-color:var(--border);}
+.b-item.active{background:#eef2ff;border-color:var(--p);}
+.b-icon{font-size:24px;width:38px;height:38px;background:var(--bg);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.b-name{font-weight:600;font-size:14px;color:var(--txt);}
+.b-sub{font-size:12px;color:var(--muted);}
+.map-canvas{background:var(--surf);border-radius:var(--rad);border:1px solid var(--border);position:relative;overflow:hidden;min-height:520px;}
+.map-bg{width:100%;height:100%;background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 30%,#e8f5e9 100%);display:flex;align-items:center;justify-content:center;position:relative;min-height:520px;}
+.campus-map{position:relative;width:600px;max-width:100%;height:480px;}
+.map-building{position:absolute;cursor:pointer;transition:all .2s;}
+.map-building:hover .mb-box{transform:scale(1.05);filter:brightness(1.1);}
+.map-building.selected .mb-box{box-shadow:0 0 0 3px var(--p),0 8px 20px rgba(26,63,170,.3);}
+.mb-box{border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:11px;font-weight:700;text-align:center;padding:6px 4px;transition:all .2s;}
+.mb-label{font-size:10px;color:var(--txt);margin-top:4px;font-weight:600;text-align:center;max-width:70px;}
+.info-popup{background:var(--surf);border-radius:var(--rad);padding:20px;border:2px solid var(--p);margin-top:16px;display:none;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.info-popup h3{font-family:'Baloo 2',cursive;color:var(--p);font-size:18px;margin-bottom:8px;}
+.info-popup p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:8px;}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{background:var(--bg);color:var(--p);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);}
+
+/* FORUM */
+.forum-layout{display:grid;grid-template-columns:1fr 320px;gap:20px;}
+@media(max-width:768px){.forum-layout{grid-template-columns:1fr;}}
+.post-form{background:var(--surf);border-radius:var(--rad);padding:20px;border:1px solid var(--border);margin-bottom:20px;}
+.post-form h3{font-family:'Baloo 2',cursive;font-weight:800;color:var(--p);margin-bottom:14px;}
+.fld{margin-bottom:12px;}
+.fld label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:14px;color:var(--txt);background:var(--bg);}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--p);}
+.fld textarea{min-height:80px;resize:vertical;}
+.post-btn{background:var(--p);color:white;border:none;padding:12px 24px;border-radius:50px;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.post-btn:hover{background:var(--pl);}
+.post-btn:disabled{opacity:.6;}
+.doubt-card{background:var(--surf);border-radius:var(--rad);padding:20px;border:1px solid var(--border);margin-bottom:12px;transition:all .2s;}
+.doubt-card:hover{box-shadow:0 4px 20px rgba(26,63,170,.1);}
+.doubt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.doubt-title{font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;color:var(--txt);flex:1;}
+.subject-badge{background:var(--p);color:white;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-left:10px;white-space:nowrap;}
+.doubt-body{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.doubt-footer{display:flex;justify-content:space-between;align-items:center;}
+.vote-row{display:flex;gap:8px;align-items:center;}
+.vote-btn{background:var(--bg);border:1.5px solid var(--border);color:var(--txt);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px;}
+.vote-btn:hover{border-color:var(--p);color:var(--p);}
+.vote-btn.voted{background:#eef2ff;border-color:var(--p);color:var(--p);}
+.anon-tag{font-size:11px;color:var(--muted);}
+.answer-section{background:var(--bg);border-radius:10px;padding:14px;margin-top:10px;display:none;}
+.answer-section.open{display:block;}
+.answer-item{background:white;border-radius:8px;padding:12px 14px;margin-bottom:8px;font-size:13px;border:1px solid var(--border);line-height:1.6;}
+.answer-item .ai-tag{background:linear-gradient(90deg,#6366f1,#8b5cf6);color:white;font-size:10px;padding:2px 8px;border-radius:8px;margin-right:6px;font-weight:600;}
+.answer-input{display:flex;gap:8px;margin-top:8px;}
+.answer-input input{flex:1;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:13px;background:white;}
+.answer-input button{background:var(--p);color:white;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:700;font-family:'Baloo 2',cursive;font-size:13px;}
+.sidebar-card{background:var(--surf);border-radius:var(--rad);padding:18px;border:1px solid var(--border);margin-bottom:16px;}
+.sidebar-card h4{font-family:'Baloo 2',cursive;font-weight:800;color:var(--p);margin-bottom:12px;}
+.hot-topic{padding:10px;background:var(--bg);border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;border:1px solid transparent;}
+.hot-topic:hover{border-color:var(--p);color:var(--p);}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.filter-chip{padding:6px 14px;border-radius:20px;background:var(--surf);border:1.5px solid var(--border);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.filter-chip.active{background:var(--p);color:white;border-color:var(--p);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="logo">🎓 GCE Tools</span>
+  <a href="index.html">← Back to Main Site</a>
+</div>
+
+<div class="tabs-nav">
+  <button class="tab-btn active" onclick="switchTab('map')">🗺️ Campus Map</button>
+  <button class="tab-btn" onclick="switchTab('forum')">💬 Doubt Forum</button>
+</div>
+
+<!-- MAP TAB -->
+<div class="tab-panel active" id="tab-map">
+  <h2 style="font-family:'Baloo 2',cursive;color:var(--p);font-size:26px;font-weight:800;margin-bottom:20px;">🏫 GCE Campus Map</h2>
+  <div class="map-layout">
+    <div class="building-list">
+      <h3>🗂️ Campus Buildings</h3>
+      <div id="buildingListItems"></div>
+    </div>
+    <div>
+      <div class="map-canvas">
+        <div class="map-bg">
+          <div class="campus-map" id="campusMap"></div>
+        </div>
+      </div>
+      <div class="info-popup" id="infoPopup"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FORUM TAB -->
+<div class="tab-panel" id="tab-forum">
+  <h2 style="font-family:'Baloo 2',cursive;color:var(--p);font-size:26px;font-weight:800;margin-bottom:20px;">💬 Anonymous Doubt Forum</h2>
+  <div class="forum-layout">
+    <div>
+      <div class="post-form">
+        <h3>📝 Post a Doubt Anonymously</h3>
+        <div class="fld"><label>Subject</label>
+          <select id="postSubject">
+            <option>Data Structures</option><option>DBMS</option><option>Operating Systems</option>
+            <option>Computer Networks</option><option>Mathematics</option><option>Physics</option>
+            <option>Engineering Drawing</option><option>C Programming</option><option>Java</option>
+            <option>Machine Learning</option><option>PMS Scholarship</option><option>Placements</option><option>Other</option>
+          </select>
+        </div>
+        <div class="fld"><label>Question Title</label><input id="postTitle" placeholder="e.g. Difference between BFS and DFS?"/></div>
+        <div class="fld"><label>Describe your doubt</label><textarea id="postBody" placeholder="Explain your doubt in detail..."></textarea></div>
+        <button class="post-btn" id="postBtn" onclick="postDoubt()">🙋 Post Anonymously</button>
+      </div>
+      <div class="filter-row" id="filterRow"></div>
+      <div id="doubtsFeed"></div>
+    </div>
+    <div>
+      <div class="sidebar-card">
+        <h4>🔥 Trending Topics</h4>
+        <div id="hotTopics"></div>
+      </div>
+      <div class="sidebar-card">
+        <h4>📊 Forum Stats</h4>
+        <div id="forumStats"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== MAP =====
+const buildings=[
+  {id:'admin',icon:'🏛️',name:'Administrative Block',sub:'Principal Office, Exam Cell',color:'#dbeafe',border:'#93c5fd',x:240,y:20,w:120,h:60,info:'Houses the Principal\'s office, examination cell, accounts section and administrative departments.',tags:['Principal Office','Exam Cell','Accounts','Library Card']},
+  {id:'cse',icon:'💻',name:'CSE Department',sub:'Labs, Classrooms, HOD Office',color:'#ede9fe',border:'#c4b5fd',x:60,y:120,w:100,h:70,info:'Computer Science Engineering Department with programming labs, HOD Dr. Pratik Ranjan\'s office, seminar hall and smart classrooms.',tags:['Programming Lab','HOD: Dr. Pratik Ranjan','Seminar Hall','WiFi Zone']},
+  {id:'mech',icon:'⚙️',name:'Mechanical Dept.',sub:'Workshop, Design Lab',color:'#fef3c7',border:'#fcd34d',x:180,y:120,w:100,h:70,info:'Mechanical Engineering department with machine workshop, CAD/CAM lab, fluid mechanics lab and design studio.',tags:['Workshop','CAD Lab','Fluid Lab','Engine Lab']},
+  {id:'civil',icon:'🏗️',name:'Civil Dept.',sub:'Surveying, Concrete Lab',color:'#d1fae5',border:'#6ee7b7',x:300,y:120,w:100,h:70,info:'Civil Engineering with surveying lab, concrete testing lab, structural analysis lab and drawing hall.',tags:['Survey Lab','Concrete Lab','Drawing Hall']},
+  {id:'ee',icon:'⚡',name:'EE Department',sub:'Electrical Labs',color:'#fee2e2',border:'#fca5a5',x:420,y:120,w:100,h:70,info:'Electrical & Electronics Engineering with circuits lab, power electronics lab and control systems lab.',tags:['Circuits Lab','Power Lab','Control Lab']},
+  {id:'library',icon:'📚',name:'Central Library',sub:'50,000+ Books, Digital',color:'#ecfdf5',border:'#6ee7b7',x:60,y:230,w:130,h:60,info:'GCE Central Library with 50,000+ technical books, journals, digital resources, NPTEL access and quiet reading rooms.',tags:['50,000+ Books','Digital Resources','NPTEL','Reading Rooms']},
+  {id:'canteen',icon:'🍽️',name:'Canteen',sub:'Food, Tea, Snacks',color:'#fff7ed',border:'#fed7aa',x:220,y:230,w:90,h:60,info:'Campus canteen serving affordable meals, tea, snacks and refreshments. Open 7AM–8PM on working days.',tags:['Meals','Tea/Coffee','Snacks','7AM–8PM']},
+  {id:'ground',icon:'⚽',name:'Sports Ground',sub:'Cricket, Football',color:'#f0fdf4',border:'#86efac',x:340,y:230,w:120,h:60,info:'Large sports ground for cricket, football, athletics and outdoor events. Also used for college gatherings and functions.',tags:['Cricket','Football','Athletics','Events']},
+  {id:'hostelb',icon:'🏠',name:'Boys Hostel',sub:'Rooms, Mess, WiFi',color:'#f0f9ff',border:'#7dd3fc',x:60,y:330,w:110,h:60,info:'Boys hostel with single/double sharing rooms, common mess, WiFi, 24/7 security and indoor recreation room.',tags:['WiFi','Mess','24/7 Security','Indoor Room']},
+  {id:'hostelg',icon:'🏡',name:'Girls Hostel',sub:'Secure, WiFi, Warden',color:'#fdf4ff',border:'#e879f9',x:200,y:330,w:110,h:60,info:'Girls hostel with secure premises, resident warden, mess, WiFi, and separate entry/exit.',tags:['Secure Campus','Warden','Mess','WiFi']},
+  {id:'gate',icon:'🚪',name:'Main Gate',sub:'Entry/Exit, Security',color:'#f8faff',border:'#94a3b8',x:350,y:360,w:90,h:40,info:'Main entrance gate with 24/7 security, visitor registration and vehicle check.',tags:['24/7 Security','Visitor Entry','Vehicle Check']},
+];
+
+function renderMap(){
+  const list=document.getElementById('buildingListItems');
+  list.innerHTML=buildings.map(b=>`
+    <div class="b-item" id="li_${b.id}" onclick="selectBuilding('${b.id}')">
+      <div class="b-icon">${b.icon}</div>
+      <div><div class="b-name">${b.name}</div><div class="b-sub">${b.sub}</div></div>
+    </div>`).join('');
+
+  const map=document.getElementById('campusMap');
+  // Draw green paths
+  map.innerHTML=`<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 600 480">
+    <rect x="0" y="0" width="600" height="480" fill="#c8e6c9" rx="12"/>
+    <rect x="50" y="100" width="520" height="260" fill="#e8f5e9" rx="8"/>
+    <rect x="140" y="90" width="10" height="290" fill="#a5d6a7"/>
+    <rect x="260" y="90" width="10" height="290" fill="#a5d6a7"/>
+    <rect x="380" y="90" width="10" height="290" fill="#a5d6a7"/>
+    <rect x="50" y="200" width="520" height="10" fill="#a5d6a7"/>
+    <rect x="50" y="315" width="520" height="10" fill="#a5d6a7"/>
+    <text x="300" y="465" text-anchor="middle" font-size="11" fill="#2e7d32" font-family="Baloo 2,cursive" font-weight="700">↑ Main Road / Entrance</text>
+  </svg>`;
+
+  buildings.forEach(b=>{
+    const el=document.createElement('div');
+    el.className='map-building';
+    el.id='mb_'+b.id;
+    el.style.cssText=`left:${b.x}px;top:${b.y}px;width:${b.w}px;`;
+    el.innerHTML=`<div class="mb-box" style="background:${b.color};border:2px solid ${b.border};width:${b.w}px;height:${b.h}px;color:#1e293b;font-size:20px;">
+      <span>${b.icon}</span><span style="font-size:10px;font-weight:700;margin-top:4px;line-height:1.2">${b.name.split(' ')[0]}</span>
+    </div>`;
+    el.onclick=()=>selectBuilding(b.id);
+    map.appendChild(el);
+  });
+}
+
+function selectBuilding(id){
+  document.querySelectorAll('.b-item').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.map-building').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('li_'+id)?.classList.add('active');
+  document.getElementById('mb_'+id)?.classList.add('selected');
+  const b=buildings.find(x=>x.id===id);
+  if(!b)return;
+  const popup=document.getElementById('infoPopup');
+  popup.style.display='block';
+  popup.innerHTML=`<h3>${b.icon} ${b.name}</h3><p>${b.info}</p>
+    <div class="tag-row">${b.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+}
+
+renderMap();
+
+// ===== FORUM =====
+let doubts=[];
+let activeFilter='All';
+
+const seedDoubts=[
+  {id:1,subject:'Data Structures',title:'What is the difference between BFS and DFS?',body:'I understand that both are graph traversal algorithms, but when should I use BFS vs DFS? Any real-world examples?',votes:12,answers:[{text:'BFS uses queue and explores level by level — best for shortest path. DFS uses stack and goes deep first — best for cycle detection and topological sort.',ai:false},{text:'Simple rule: Use BFS when you need shortest path (like GPS navigation). Use DFS for maze solving, detecting cycles.',ai:false}],time:'2h ago'},
+  {id:2,subject:'PMS Scholarship',title:'PMS scholarship not credited for 3 months — what to do?',body:'I submitted all documents on time and the portal shows "Verified" status but amount has not come for 3 months. Anyone else facing this?',votes:8,answers:[{text:'This is a common issue. First check portal status carefully. If "District Forwarded" is shown, visit the District Welfare Office with your application number. Usually gets resolved in 2-4 weeks.',ai:false}],time:'5h ago'},
+  {id:3,subject:'Placements',title:'TCS NQT preparation tips — 3 weeks left',body:'TCS is coming in 3 weeks. I am good at coding but weak in aptitude. How to prepare in this short time?',votes:24,answers:[{text:'For TCS NQT: Focus on Numerical Ability (50% of aptitude), Verbal (30%), Reasoning (20%). Use IndiaBix for practice. For coding section: Arrays, Strings, Basic DP.',ai:false}],time:'1d ago'},
+  {id:4,subject:'DBMS',title:'Normalization 1NF 2NF 3NF — still confused',body:'I read the textbook 3 times but normalization forms are not clear. Can someone explain with a simple example?',votes:19,answers:[],time:'3h ago'},
+];
+
+function renderDoubts(filter='All'){
+  const feed=document.getElementById('doubtsFeed');
+  const filtered=filter==='All'?doubts:doubts.filter(d=>d.subject===filter);
+  if(!filtered.length){feed.innerHTML='<p style="color:var(--muted);text-align:center;padding:40px">No doubts yet. Be the first to post!</p>';return;}
+  feed.innerHTML=filtered.map(d=>`
+    <div class="doubt-card">
+      <div class="doubt-header">
+        <div class="doubt-title">${d.title}</div>
+        <span class="subject-badge">${d.subject}</span>
+      </div>
+      <div class="doubt-body">${d.body}</div>
+      <div class="doubt-footer">
+        <div class="vote-row">
+          <button class="vote-btn ${d.voted?'voted':''}" onclick="vote(${d.id})">👍 ${d.votes}</button>
+          <button class="vote-btn" onclick="toggleAnswers(${d.id})">💬 ${d.answers.length} Answers</button>
+          <button class="vote-btn" onclick="aiAnswer(${d.id})" id="aiAnswerBtn_${d.id}">🤖 AI Answer</button>
+        </div>
+        <span class="anon-tag">👤 Anonymous · ${d.time}</span>
+      </div>
+      <div class="answer-section" id="ans_${d.id}">
+        ${d.answers.map(a=>`<div class="answer-item">${a.ai?'<span class="ai-tag">✨ AI</span>':''}${a.text}</div>`).join('')}
+        <div class="answer-input">
+          <input placeholder="Add your answer anonymously..." id="ansInput_${d.id}"/>
+          <button onclick="submitAnswer(${d.id})">Post</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function buildFilters(){
+  const subjects=['All',...new Set(doubts.map(d=>d.subject))];
+  document.getElementById('filterRow').innerHTML=subjects.map(s=>`<span class="filter-chip ${s===activeFilter?'active':''}" onclick="setFilter('${s}')">${s}</span>`).join('');
+}
+
+function setFilter(f){activeFilter=f;buildFilters();renderDoubts(f);}
+
+function vote(id){
+  const d=doubts.find(x=>x.id===id);
+  if(!d)return;
+  d.voted=!d.voted;d.votes+=d.voted?1:-1;
+  renderDoubts(activeFilter);
+}
+
+function toggleAnswers(id){
+  const el=document.getElementById('ans_'+id);
+  if(el)el.classList.toggle('open');
+}
+
+const GROQ_API_KEY = 'YOUR_GROQ_API_KEY_HERE';
+  async function aiAnswer(id){
+  const d=doubts.find(x=>x.id===id);
+  if(!d)return;
+  const btn=document.getElementById('aiAnswerBtn_'+id);
+  if(btn){btn.disabled=true;btn.textContent='⏳ Thinking...';}
+  try{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_API_KEY}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:`A GCE engineering student asked: "${d.title}"\n\nFull question: ${d.body}\n\nProvide a clear, concise, student-friendly answer. Use simple language. If it's a technical CS/engineering topic, give a practical example. If it's about PMS scholarship or college procedures, give accurate Bihar-specific guidance. Keep answer under 100 words.`}]})});
+    const data=await res.json();
+    d.answers.unshift({text:data.choices[0].message.content,ai:true});
+    document.getElementById('ans_'+id)?.classList.add('open');
+    renderDoubts(activeFilter);
+  }catch(e){if(btn){btn.disabled=false;btn.textContent='🤖 AI Answer';}}
+}
+
+function submitAnswer(id){
+  const inp=document.getElementById('ansInput_'+id);
+  const text=inp?.value.trim();
+  if(!text)return;
+  const d=doubts.find(x=>x.id===id);
+  if(d){d.answers.push({text,ai:false});inp.value='';renderDoubts(activeFilter);}
+}
+
+async function postDoubt(){
+  const title=document.getElementById('postTitle').value.trim();
+  const body=document.getElementById('postBody').value.trim();
+  const subject=document.getElementById('postSubject').value;
+  if(!title||!body){alert('Please fill title and description!');return;}
+  const btn=document.getElementById('postBtn');
+  btn.disabled=true;btn.textContent='Posting...';
+  const id=Date.now();
+  doubts.unshift({id,subject,title,body,votes:0,answers:[],time:'Just now',voted:false});
+  document.getElementById('postTitle').value='';
+  document.getElementById('postBody').value='';
+  buildFilters();renderDoubts(activeFilter);updateStats();
+  btn.disabled=false;btn.textContent='🙋 Post Anonymously';
+}
+
+function updateStats(){
+  document.getElementById('forumStats').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:14px">
+      <div style="display:flex;justify-content:space-between"><span>Total Questions</span><strong>${doubts.length}</strong></div>
+      <div style="display:flex;justify-content:space-between"><span>Total Answers</span><strong>${doubts.reduce((a,d)=>a+d.answers.length,0)}</strong></div>
+      <div style="display:flex;justify-content:space-between"><span>AI Answers</span><strong>${doubts.reduce((a,d)=>a+d.answers.filter(x=>x.ai).length,0)}</strong></div>
+    </div>`;
+}
+
+function buildHotTopics(){
+  const topics=['BFS vs DFS in DSA','DBMS Normalization','PMS Scholarship 2025','TCS NQT Prep','OS Scheduling Algorithms','CGPA for TCS cutoff'];
+  document.getElementById('hotTopics').innerHTML=topics.map(t=>`<div class="hot-topic" onclick="document.getElementById('postTitle').value='${t}';switchTab('forum')">${t}</div>`).join('');
+}
+
+doubts=[...seedDoubts];
+buildFilters();renderDoubts();updateStats();buildHotTopics();
+
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['map','forum'][i]===t));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+}
+</script>
+</body>
+</html>

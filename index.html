@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaya College of Engineering</title>
+  <link rel="stylesheet" href="style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NOTICE TICKER -->
+  <!-- <div class="ticker-wrap">
+    <div class="ticker">
+      <span>📢 Exam Schedule Released — Check Academic Section &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>🎯 Campus Placement Drive: TCS on 20 March 2025 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>📝 PMS Scholarship Last Date: 31 March 2025 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>🏆 GCE Hackathon 2025 — Register Now &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>🎓 Convocation Ceremony: 15 April 2025 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>📢 Exam Schedule Released — Check Academic Section &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>🎯 Campus Placement Drive: TCS on 20 March 2025 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span>📝 PMS Scholarship Last Date: 31 March 2025 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    </div>
+  </div> -->
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">🎓</div>
+
+      <div>
+        <span class="logo-title">Gaya College of Engineering</span>
+        <span class="logo-sub">
+          Government of Bihar • Est. 2008
+        </span>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about_us.html">About Us</a>
+      <a href="admission.html">Admissions</a>
+      <a href="department.html">Departments</a>
+      <a href="placement_data.html">Placements</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-controls">
+      <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">🇮🇳 हिंदी</button>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge" data-lang-en="Government Engineering College" data-lang-hi="सरकारी इंजीनियरिंग कॉलेज">
+        Government Engineering College</div>
+      <h1 data-lang-en="Gaya College of Engineering" data-lang-hi="गया कॉलेज ऑफ इंजीनियरिंग">Gaya College of Engineering
+      </h1>
+      <p data-lang-en="A premier government engineering institute under the Department of Science & Technology, Bihar. Shaping engineers since 1982."
+        data-lang-hi="बिहार के विज्ञान एवं प्रौद्योगिकी विभाग के अंतर्गत एक प्रमुख सरकारी इंजीनियरिंग संस्थान। 2008 से इंजीनियर तैयार कर रहा है।">
+        A premier government engineering institute under the Department of Science & Technology, Bihar. Shaping
+        engineers since 2008.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openChat()" data-lang-en="💬 Ask AI Assistant"
+          data-lang-hi="💬 AI सहायक से पूछें">💬 Ask AI Assistant</button>
+        
+      </div>
+    </div>
+    <div class="hero-shapes">
+      <div class="shape s1"></div>
+      <div class="shape s2"></div>
+      <div class="shape s3"></div>
+    </div>
+  </section>
+  <!-- COLLEGE IMAGE SLIDER -->
+  <!-- COLLEGE IMAGE SLIDER -->
+  <section class="image-slider">
+    <div class="slider-container">
+
+      <!-- Slides -->
+      <div class="slides" id="slides">
+        <img src="images/logo_gce.jpg" class="slide">
+        <img src="images/main_gate.png" class="slide">
+        <img src="images/main_bulding.avif" class="slide">
+        <img src="images/depart_img.png" class="slide">
+      </div>
+
+      <!-- Buttons -->
+      <button class="slider-btn left">❮</button>
+      <button class="slider-btn right">❯</button>
+
+    </div>
+  </section>
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-num" data-target="2000">0</div>
+      <div class="stat-label" data-lang-en="Students Enrolled" data-lang-hi="नामांकित छात्र">Students Enrolled</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" data-target="80">0</div>
+      <div class="stat-label" data-lang-en="Faculty Members" data-lang-hi="शिक्षक सदस्य">Faculty Members</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" data-target="4">0</div>
+      <div class="stat-label" data-lang-en="Departments" data-lang-hi="विभाग">Departments</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" data-target="150">0</div>
+      <div class="stat-label" data-lang-en="Placed in 2024" data-lang-hi="2024 में प्लेसमेंट">Placed in 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" data-target="42">0</div>
+      <div class="stat-label" data-lang-en="Years of Excellence" data-lang-hi="उत्कृष्टता के वर्ष">Years of Excellence
+      </div>
+    </div>
+  </section>
+
+  <!-- INFORMATION CARDS -->
+  <section class="info">
+    <div class="section-header">
+      <h2 data-lang-en="Explore GCE" data-lang-hi="GCE जानें">Explore GCE</h2>
+      <p data-lang-en="Everything you need to know about your future college"
+        data-lang-hi="अपने भविष्य के कॉलेज के बारे में सब कुछ जानें">Everything you need to know about your future
+        college</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card fade-in">
+        <div class="card-icon">🎯</div>
+        <h3 data-lang-en="Admissions" data-lang-hi="प्रवेश">Admissions</h3>
+        <p data-lang-en="Admissions through JEE Main followed by Bihar UGEAC counseling. Merit-based seat allotment."
+          data-lang-hi="JEE Main के बाद Bihar UGEAC काउंसलिंग के माध्यम से प्रवेश। मेरिट आधारित सीट आवंटन।">Admissions
+          through JEE Main followed by Bihar UGEAC counseling. Merit-based seat allotment.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">🏛️</div>
+        <h3 data-lang-en="Departments" data-lang-hi="विभाग">Departments</h3>
+        <p data-lang-en="CSE, Mechanical, Civil, Electrical & Electronics Engineering with modern labs and research focus."
+          data-lang-hi="CSE, मैकेनिकल, सिविल, इलेक्ट्रिकल और इलेक्ट्रॉनिक्स इंजीनियरिंग।">CSE, Mechanical, Civil,
+          Electrical & Electronics Engineering with modern labs and research focus.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">🏠</div>
+        <h3 data-lang-en="Hostel & Campus" data-lang-hi="हॉस्टल और कैंपस">Hostel & Campus</h3>
+        <p data-lang-en="Separate hostels for boys and girls with mess, WiFi and 24/7 security on a green campus."
+          data-lang-hi="लड़कों और लड़कियों के लिए अलग हॉस्टल, मेस, वाईफाई और 24/7 सुरक्षा।">Separate hostels for boys
+          and girls with mess, WiFi and 24/7 security on a green campus.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">💼</div>
+        <h3 data-lang-en="Placements" data-lang-hi="प्लेसमेंट">Placements</h3>
+        <p data-lang-en="Strong placement record with TCS, Wipro, Infosys and more recruiting from GCE every year."
+          data-lang-hi="TCS, Wipro, Infosys और अन्य कंपनियां हर साल GCE से भर्ती करती हैं।">Strong placement record with
+          TCS, Wipro, Infosys and more recruiting from GCE every year.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">📚</div>
+        <h3 data-lang-en="Library & Labs" data-lang-hi="पुस्तकालय और लैब">Library & Labs</h3>
+        <p data-lang-en="Central library with 50,000+ books, digital resources and well-equipped department laboratories."
+          data-lang-hi="50,000+ पुस्तकों के साथ केंद्रीय पुस्तकालय और अच्छी तरह से सुसज्जित प्रयोगशालाएं।">Central
+          library with 50,000+ books, digital resources and well-equipped department laboratories.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">🏅</div>
+        <h3 data-lang-en="PMS Scholarship" data-lang-hi="PMS छात्रवृत्ति">PMS Scholarship</h3>
+        <p data-lang-en="Post Matric Scholarship for SC, ST, BC and EBC students by Government of Bihar covering tuition fees."
+          data-lang-hi="बिहार सरकार द्वारा SC, ST, BC और EBC छात्रों के लिए PMS छात्रवृत्ति।">Post Matric Scholarship
+          for SC, ST, BC and EBC students by Government of Bihar covering tuition fees.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHATBOT -->
+  <div class="chatbot" id="chatbot">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="bot-avatar-sm">🤖</div>
+        <div>
+          <div class="chat-title" data-lang-en="GCE AI Assistant" data-lang-hi="GCE AI सहायक">GCE AI Assistant</div>
+          <div class="chat-status">
+            <span class="status-dot"></span>
+            <span data-lang-en="Online" data-lang-hi="ऑनलाइन">Online</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-header-right">
+        <button class="icon-btn" onclick="clearChat()" title="Clear chat">🗑️</button>
+        <button class="icon-btn" onclick="closeChat()">✖</button>
+      </div>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+      <div class="message bot">
+        <div class="avatar">🤖</div>
+        <div class="msg-content">
+          <div class="text" id="welcomeMsg">Hello 👋 I'm your GCE AI Assistant powered by Claude AI!<br>Ask me anything
+            about admissions, hostel, scholarship, departments or placements.</div>
+          <div class="msg-time" id="welcomeTime"></div>
+        </div>
+      </div>
+      <div class="suggestions" id="initialSuggestions">
+        <button class="suggestion-btn" onclick="quickQuestion('Admission process')">Admission process</button>
+        <button class="suggestion-btn" onclick="quickQuestion('Hostel fee')">Hostel fee</button>
+        <button class="suggestion-btn" onclick="quickQuestion('PMS scholarship')">PMS Scholarship</button>
+        <button class="suggestion-btn" onclick="quickQuestion('Placement details')">Placements</button>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice input">🎙️</button>
+      <input id="userInput" placeholder="Ask something..." autocomplete="off">
+      <button class="send-btn" onclick="sendMessage()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- CHAT FLOAT BUTTON -->
+  <div class="chat-float" onclick="openChat()" id="chatFloat">
+    <span>💬</span>
+    <div class="float-pulse"></div>
+  </div>
+
+  <!-- TOOLS HUB -->
+  <section class="tools-hub">
+    <div class="section-header">
+      <h2>🛠️ GCE Student Tools</h2>
+      <p>Powerful AI-powered tools built for GCE students</p>
+    </div>
+    <div class="tools-grid">
+      <a href="cgpa.html" class="tool-card">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">CGPA Calculator</div>
+        <div class="tool-desc">Calculate SGPA, CGPA, percentage & check placement eligibility</div>
+        <div class="tool-tag">Free Tool</div>
+      </a>
+      <a href="resume.html" class="tool-card">
+        <div class="tool-icon">📄</div>
+        <div class="tool-name">AI Resume Builder</div>
+        <div class="tool-desc">Generate an ATS-friendly engineering resume using Claude AI</div>
+        <div class="tool-tag ai-tool">✨ AI Powered</div>
+      </a>
+      <a href="pms.html" class="tool-card">
+        <div class="tool-icon">🏅</div>
+        <div class="tool-name">PMS Scholarship Helper</div>
+        <div class="tool-desc">Check eligibility, get checklist & auto-generate application letter</div>
+        <div class="tool-tag ai-tool">✨ AI Powered</div>
+      </a>
+      <a href="placement.html" class="tool-card">
+        <div class="tool-icon">🎯</div>
+        <div class="tool-name">Placement Readiness</div>
+        <div class="tool-desc">10-question quiz with personalized AI action plan for placements</div>
+        <div class="tool-tag ai-tool">✨ AI Powered</div>
+      </a>
+      <a href="timetable.html" class="tool-card">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">Exam Timetable Generator</div>
+        <div class="tool-desc">Smart study schedule based on your exam dates and availability</div>
+        <div class="tool-tag ai-tool">✨ AI Powered</div>
+      </a>
+      <a href="campus.html" class="tool-card">
+        <div class="tool-icon">🗺️</div>
+        <div class="tool-name">Campus Map & Forum</div>
+        <div class="tool-desc">Interactive campus map + anonymous doubt forum with AI answers</div>
+        <div class="tool-tag ai-tool">✨ AI Powered</div>
+      </a>
+         <a href="https://agent.ai/agent/ybiepoxd5h14mo6d" class="tool-card">
+        <div class="tool-icon">📄</div>
+        <div class="tool-name">AI Linkedin Helper</div>
+        <div class="tool-desc">Help you to improve your linkedin profile</div>
+        <div class="tool-tag ai-tool">✨ AI Powered</div>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+
+    <div class="footer-container">
+
+      <!-- College Info -->
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="footer-logo-icon">🎓</div>
+
+          <div>
+            <h3>Gaya College of Engineering</h3>
+            <p>Government of Bihar • Est. 2008</p>
+          </div>
+        </div>
+
+        <p class="footer-about">
+          A premier government engineering institute dedicated to excellence in technical education, innovation, and
+          research.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+
+        <ul>
+          <li><a href="admission.html">Admissions</a></li>
+          <li><a href="department.html">Departments</a></li>
+          <li><a href="placement_data.html">Placements</a></li>
+          <li><a href="https://pmsonline.bihar.gov.in/pms/pms_online/Default.aspx">Scholarships</a></li>
+        </ul>
+      </div>
+
+      <!-- Student Services -->
+      <div class="footer-col">
+        <h4>Student Services</h4>
+
+        <ul>
+          <li><a href="#">Hostel</a></li>
+          <li><a href="#">Library</a></li>
+          <li><a href="https://phoolbabu.space/beu_result/v1/branch_view.php">Exam Result</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h4>Contact</h4>
+
+        <p>📍 Gaya, Bihar, India</p>
+        <p>📞 +91 88779 69565</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Gaya College of Engineering, Bihar • All Rights Reserved
+    </div>
+
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

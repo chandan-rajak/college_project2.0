@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placement Readiness — GCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#1a3faa;--pl:#2d5be3;--acc:#f59e0b;--bg:#f0f4ff;--surf:#fff;--txt:#0f1b3d;--muted:#6b7280;--border:#e2e8f0;--rad:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--txt);}
+.topbar{background:var(--p);color:white;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;font-size:14px;}
+.logo{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;}
+.hero-strip{background:linear-gradient(135deg,#dc2626,#ea580c);color:white;padding:40px 28px;text-align:center;}
+.hero-strip h1{font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;margin-bottom:8px;}
+.hero-strip p{opacity:.85;font-size:16px;}
+.container{max-width:860px;margin:0 auto;padding:28px 20px;}
+.card{background:var(--surf);border-radius:var(--rad);padding:28px;box-shadow:0 4px 20px rgba(26,63,170,.08);border:1px solid var(--border);margin-bottom:20px;}
+.card h2{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--p);margin-bottom:18px;}
+.question-block{background:var(--bg);border-radius:12px;padding:20px;margin-bottom:16px;border:1px solid var(--border);}
+.q-text{font-weight:600;font-size:15px;margin-bottom:12px;color:var(--txt);}
+.q-num{background:var(--p);color:white;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-weight:800;font-size:13px;margin-right:8px;}
+.options{display:flex;flex-direction:column;gap:8px;}
+.option{display:flex;align-items:center;gap:10px;padding:10px 14px;background:white;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;font-size:14px;}
+.option:hover{border-color:var(--p);background:#eef2ff;}
+.option.selected{border-color:var(--p);background:#eef2ff;font-weight:600;}
+.option input{accent-color:var(--p);}
+.btn{padding:12px 28px;border-radius:50px;border:none;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
+.btn-primary{background:var(--p);color:white;box-shadow:0 4px 14px rgba(26,63,170,.3);}
+.btn-primary:hover{background:var(--pl);transform:translateY(-1px);}
+.btn-red{background:#dc2626;color:white;}
+.btn-red:hover{background:#b91c1c;}
+
+/* Score meter */
+.score-meter{position:relative;height:20px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin:16px 0;}
+.score-fill{height:100%;border-radius:10px;transition:width 1s ease;background:linear-gradient(90deg,#ef4444,#f59e0b,#10b981);}
+.score-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;}
+
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:20px 0;}
+.r-box{border-radius:12px;padding:18px;text-align:center;}
+.r-num{font-family:'Baloo 2',cursive;font-size:30px;font-weight:800;margin-bottom:4px;}
+.r-label{font-size:12px;font-weight:600;opacity:.8;}
+.action-items{margin-top:20px;}
+.action-item{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--bg);border-radius:10px;margin-bottom:8px;border:1px solid var(--border);}
+.priority{width:52px;text-align:center;padding:4px 0;border-radius:6px;font-size:11px;font-weight:700;flex-shrink:0;}
+.priority.high{background:#fee2e2;color:#dc2626;}
+.priority.medium{background:#fef3c7;color:#d97706;}
+.priority.low{background:#d1fae5;color:#059669;}
+.ai-result{background:var(--surf);border:2px solid var(--p);border-radius:var(--rad);padding:20px;margin-top:16px;white-space:pre-wrap;font-size:14px;line-height:1.7;display:none;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="logo">🎓 GCE Tools</span>
+  <a href="index.html">← Back to Main Site</a>
+</div>
+<div class="hero-strip">
+  <h1>🎯 Placement Readiness Checker</h1>
+  <p>Answer 10 quick questions and get your personalized placement readiness score + action plan</p>
+</div>
+
+<div class="container">
+  <div class="card" id="quizCard">
+    <h2>Answer Honestly — Take ~3 Minutes</h2>
+    <div id="questionsArea"></div>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-red" onclick="calcScore()">🎯 Get My Score</button>
+      <button class="btn" style="background:var(--bg);border:2px solid var(--border)" onclick="resetQuiz()">Reset</button>
+    </div>
+  </div>
+
+  <div id="resultCard" style="display:none">
+    <div class="card">
+      <h2 id="scoreTitle"></h2>
+      <div class="score-meter"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+      <div class="score-labels"><span>0%</span><span>Needs Work</span><span>Ready</span><span>Dream Job!</span><span>100%</span></div>
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="action-items" id="actionItems"></div>
+      <button class="btn btn-primary" style="margin-top:16px" id="aiBtn" onclick="getAiPlan()">✨ Get Personalized AI Action Plan</button>
+      <div class="ai-result" id="aiPlan"></div>
+      <button class="btn" style="background:var(--bg);border:2px solid var(--border);margin-top:12px" onclick="resetQuiz()">← Retake Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions=[
+  {q:"What is your current CGPA?",options:["Below 5.0 (0pts)","5.0 – 5.9 (3pts)","6.0 – 6.9 (6pts)","7.0 – 7.9 (8pts)","8.0+ (10pts)"],scores:[0,3,6,8,10],key:'cgpa'},
+  {q:"How many active backlogs do you have?",options:["3 or more (0pts)","2 backlogs (3pts)","1 backlog (5pts)","No backlogs (10pts)"],scores:[0,3,5,10],key:'backlog'},
+  {q:"How is your DSA (Data Structures & Algorithms) knowledge?",options:["Haven't started (0pts)","Know basics only (3pts)","Solved 50–100 problems (6pts)","Solved 100–300 problems (8pts)","Solved 300+ LeetCode (10pts)"],scores:[0,3,6,8,10],key:'dsa'},
+  {q:"Do you know any programming language well?",options:["No language (0pts)","Basic C/C++ (4pts)","Comfortable in 1 language (7pts)","Proficient in 2+ languages (10pts)"],scores:[0,4,7,10],key:'lang'},
+  {q:"Have you built any projects?",options:["No projects (0pts)","1 basic project (3pts)","2-3 projects (6pts)","3+ projects with GitHub (9pts)","Projects with deployment/live (10pts)"],scores:[0,3,6,9,10],key:'projects'},
+  {q:"Any internship or work experience?",options:["No internship (0pts)","Applied but not selected (2pts)","Virtual/online internship (5pts)","Offline internship (8pts)","2+ internships (10pts)"],scores:[0,2,5,8,10],key:'intern'},
+  {q:"Communication & English skills?",options:["Poor — not comfortable (0pts)","Basic — can understand (4pts)","Average — can manage (6pts)","Good — confident speaker (9pts)","Excellent — fluent (10pts)"],scores:[0,4,6,9,10],key:'comm'},
+  {q:"Have you prepared for aptitude tests?",options:["Not at all (0pts)","Basic awareness (3pts)","Practiced occasionally (6pts)","Regular practice (8pts)","Cleared mock tests (10pts)"],scores:[0,3,6,8,10],key:'aptitude'},
+  {q:"Is your resume ready?",options:["No resume (0pts)","Rough draft exists (3pts)","Resume ready, not reviewed (6pts)","Reviewed resume (8pts)","ATS-optimized + reviewed (10pts)"],scores:[0,3,6,8,10],key:'resume'},
+  {q:"Have you attended any mock interviews?",options:["Never (0pts)","Self-practiced only (3pts)","1-2 mock interviews (6pts)","Multiple mocks (8pts)","Real interviews + feedback (10pts)"],scores:[0,3,6,8,10],key:'interview'},
+];
+
+function buildQuiz(){
+  const area=document.getElementById('questionsArea');
+  area.innerHTML=questions.map((q,i)=>`
+    <div class="question-block">
+      <div class="q-text"><span class="q-num">${i+1}</span>${q.q}</div>
+      <div class="options">
+        ${q.options.map((opt,j)=>`
+          <label class="option" id="opt_${i}_${j}">
+            <input type="radio" name="q${i}" value="${j}" onchange="selectOpt(${i},${j})"/>
+            ${opt}
+          </label>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function selectOpt(qi,oi){
+  questions[qi].options.forEach((_,j)=>{
+    document.getElementById(`opt_${qi}_${j}`)?.classList.remove('selected');
+  });
+  document.getElementById(`opt_${qi}_${oi}`)?.classList.add('selected');
+}
+
+function calcScore(){
+  let total=0,answered=0;
+  const answers={};
+  questions.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="q${i}"]:checked`);
+    if(sel){answered++;const v=parseInt(sel.value);total+=q.scores[v];answers[q.key]=v;}
+  });
+  if(answered<7){alert('Please answer at least 7 questions!');return;}
+  const maxScore=100;
+  const pct=Math.round((total/maxScore)*100);
+  showResult(pct,total,answers);
+}
+
+function showResult(pct,total,answers){
+  document.getElementById('quizCard').style.display='none';
+  document.getElementById('resultCard').style.display='block';
+
+  const level=pct>=80?'🏆 Dream Company Ready!':pct>=65?'✅ Good — Keep Improving':pct>=50?'⚡ Average — Needs Work':'🚨 Needs Major Improvement';
+  const color=pct>=80?'#10b981':pct>=65?'#3b82f6':pct>=50?'#f59e0b':'#ef4444';
+
+  document.getElementById('scoreTitle').textContent=`Your Score: ${pct}% — ${level}`;
+  setTimeout(()=>{document.getElementById('scoreFill').style.width=pct+'%';},100);
+
+  document.getElementById('resultGrid').innerHTML=`
+    <div class="r-box" style="background:${color}20;color:${color}"><div class="r-num" style="color:${color}">${pct}%</div><div class="r-label">Overall Score</div></div>
+    <div class="r-box" style="background:#3b82f620;color:#1d4ed8"><div class="r-num" style="color:#1d4ed8">${total}/100</div><div class="r-label">Raw Points</div></div>
+    <div class="r-box" style="background:#10b98120;color:#065f46"><div class="r-num" style="color:#065f46">${pct>=65?'Yes':'No'}</div><div class="r-label">TCS/Wipro Ready</div></div>
+    <div class="r-box" style="background:#7c3aed20;color:#5b21b6"><div class="r-num" style="color:#5b21b6">${pct>=80?'Yes':'No'}</div><div class="r-label">Product Co. Ready</div></div>
+  `;
+
+  const actions=[];
+  if(answers.cgpa<=2) actions.push({p:'high',t:'Boost CGPA','d':'Focus on upcoming exams. Target 7.0+ for top companies. Attend all classes and clear backlogs first.'});
+  if(answers.dsa<=2) actions.push({p:'high',t:'Learn DSA','d':'Start with Arrays, Strings, then Trees, DP. Solve 5 LeetCode problems daily. Target 200+ problems.'});
+  if(answers.projects<=1) actions.push({p:'high',t:'Build Projects','d':'Create 2-3 real-world projects using your tech stack. Deploy them. Add to GitHub. Quality > Quantity.'});
+  if(answers.aptitude<=2) actions.push({p:'medium',t:'Practice Aptitude','d':'Use IndiaBix, PrepInsta daily for 30 min. TCS NQT, Wipro NLTH require strong aptitude.'});
+  if(answers.resume<=2) actions.push({p:'medium',t:'Build Resume','d':'Use our AI Resume Builder on this site! ATS-optimized resume is crucial for shortlisting.'});
+  if(answers.comm<=2) actions.push({p:'medium',t:'Improve Communication','d':'Join GCE debate club. Practice English daily. Watch English content. Speak aloud for 10 min/day.'});
+  if(answers.intern<=1) actions.push({p:'low',t:'Get Internship','d':'Apply on Internshala, LinkedIn, Unstop. Even 1-month internship adds huge value to resume.'});
+  if(actions.length===0) actions.push({p:'low',t:'Mock Interviews','d':'You are doing great! Now focus on HR prep and mock interviews to polish your communication.'});
+
+  document.getElementById('actionItems').innerHTML=`<p style="font-family:Baloo 2,cursive;font-weight:700;font-size:17px;color:var(--p);margin-bottom:12px;">📌 Your Action Plan:</p>`+
+    actions.map(a=>`<div class="action-item"><div class="priority ${a.p}">${a.p.toUpperCase()}</div><div><strong style="color:var(--p)">${a.t}</strong><p style="font-size:13px;color:var(--muted);margin-top:4px">${a.d}</p></div></div>`).join('');
+
+  window.quizScore=pct;window.quizAnswers=answers;
+}
+
+const GROQ_API_KEY = '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';
+  async function getAiPlan(){
+  const btn=document.getElementById('aiBtn');
+  btn.disabled=true;btn.textContent='⏳ Generating plan...';
+  const pct=window.quizScore||50;
+  const a=window.quizAnswers||{};
+  const prompt=`A GCE (Gaya College of Engineering, Bihar) engineering student scored ${pct}% on a placement readiness quiz.
+
+Their scores (0=worst, highest value=best):
+- CGPA: ${['<5','5-5.9','6-6.9','7-7.9','8+'][a.cgpa]||'unknown'}
+- Backlogs: ${['3+','2','1','None'][a.backlog]||'unknown'}
+- DSA: ${['None','Basics','50-100','100-300','300+'][a.dsa]||'unknown'} problems
+- Programming: ${['None','Basic C++','1 language','2+ languages'][a.lang]||'unknown'}
+- Projects: ${['None','1 basic','2-3','3+ with GitHub','Deployed'][a.projects]||'unknown'}
+- Internship: ${['None','Applied','Virtual','Offline','2+'][a.intern]||'unknown'}
+- Communication: ${['Poor','Basic','Average','Good','Excellent'][a.comm]||'unknown'}
+- Aptitude prep: ${['None','Aware','Occasional','Regular','Cleared mocks'][a.aptitude]||'unknown'}
+- Resume: ${['None','Draft','Ready','Reviewed','ATS-optimized'][a.resume]||'unknown'}
+- Mock interviews: ${['Never','Self-practice','1-2 mocks','Multiple','Real interviews'][a.interview]||'unknown'}
+
+Create a personalized 3-month action plan for this student targeting TCS, Wipro, Infosys placements. Include:
+1. Month 1 priorities (most critical gaps)
+2. Month 2 goals  
+3. Month 3 final prep
+4. Daily routine recommendation
+5. Specific resources/websites to use
+Be specific, practical and encouraging. Keep it actionable and concise.`;
+
+  try{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_API_KEY}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const d=await res.json();
+    const el=document.getElementById('aiPlan');
+    el.textContent=d.choices[0].message.content;
+    el.style.display='block';
+  }catch(e){
+    document.getElementById('aiPlan').textContent='Error loading plan. Please try again.';
+    document.getElementById('aiPlan').style.display='block';
+  }
+  btn.disabled=false;btn.textContent='✨ Get Personalized AI Action Plan';
+}
+
+function resetQuiz(){
+  document.getElementById('quizCard').style.display='block';
+  document.getElementById('resultCard').style.display='none';
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

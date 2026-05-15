@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Timetable Generator — GCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#1a3faa;--pl:#2d5be3;--acc:#f59e0b;--bg:#f0f4ff;--surf:#fff;--txt:#0f1b3d;--muted:#6b7280;--border:#e2e8f0;--rad:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--txt);}
+.topbar{background:var(--p);color:white;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;font-size:14px;}
+.logo{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;}
+.hero-strip{background:linear-gradient(135deg,#0891b2,#0e7490);color:white;padding:40px 28px;text-align:center;}
+.hero-strip h1{font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;margin-bottom:8px;}
+.hero-strip p{opacity:.85;font-size:16px;}
+.container{max-width:920px;margin:0 auto;padding:28px 20px;}
+.card{background:var(--surf);border-radius:var(--rad);padding:28px;box-shadow:0 4px 20px rgba(26,63,170,.08);border:1px solid var(--border);margin-bottom:20px;}
+.card h2{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--p);margin-bottom:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-row.full{grid-template-columns:1fr;}
+.fld label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:14px;color:var(--txt);background:var(--bg);transition:border .2s;}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--p);}
+.subject-entry{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:center;}
+.subject-entry input,.subject-entry select{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Hind',sans-serif;font-size:13px;color:var(--txt);background:var(--bg);}
+.subject-entry input:focus,.subject-entry select:focus{outline:none;border-color:var(--p);}
+.del-btn{background:#fee2e2;border:none;color:#ef4444;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.add-btn{background:var(--bg);border:1.5px dashed var(--border);color:var(--muted);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;width:100%;margin-top:4px;transition:all .2s;}
+.add-btn:hover{border-color:var(--p);color:var(--p);}
+.btn{padding:12px 28px;border-radius:50px;border:none;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
+.btn-primary{background:var(--p);color:white;box-shadow:0 4px 14px rgba(26,63,170,.3);}
+.btn-primary:hover{background:var(--pl);transform:translateY(-1px);}
+.btn-teal{background:#0891b2;color:white;}
+.btn-teal:hover{background:#0e7490;}
+.label-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;margin-bottom:8px;}
+.label-row span{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:0 12px;}
+/* Timetable output */
+.timetable-output{overflow-x:auto;}
+.week-block{margin-bottom:24px;}
+.week-title{font-family:'Baloo 2',cursive;font-weight:800;font-size:17px;color:var(--p);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.day-row{display:flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:6px;}
+.day-name{background:var(--p);color:white;width:90px;min-width:90px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-weight:700;font-size:13px;padding:12px 8px;text-align:center;}
+.day-sessions{flex:1;display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:white;}
+.session{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.session.study{background:#dbeafe;color:#1d4ed8;}
+.session.revision{background:#d1fae5;color:#065f46;}
+.session.practice{background:#fef3c7;color:#92400e;}
+.session.rest{background:#f3f4f6;color:#6b7280;}
+.session.exam{background:#fee2e2;color:#dc2626;}
+.session .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.countdown{background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;border-radius:12px;padding:14px 18px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;font-size:14px;}
+.countdown strong{font-family:'Baloo 2',cursive;font-size:18px;}
+.tips-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px;margin-top:16px;}
+.tips-box h4{color:#065f46;font-family:'Baloo 2',cursive;font-weight:700;margin-bottom:8px;}
+.tips-box li{font-size:13px;color:#166534;margin-bottom:4px;margin-left:16px;}
+.ai-schedule{background:var(--surf);border:2px solid #0891b2;border-radius:var(--rad);padding:20px;white-space:pre-wrap;font-size:13px;line-height:1.7;min-height:100px;color:var(--txt);display:none;}
+.subject-color{width:14px;height:14px;border-radius:50%;display:inline-block;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="logo">🎓 GCE Tools</span>
+  <a href="index.html">← Back to Main Site</a>
+</div>
+<div class="hero-strip">
+  <h1>📅 Exam Timetable Generator</h1>
+  <p>Add your subjects and exam dates — get a smart personalized study schedule</p>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>Your Details</h2>
+    <div class="form-row">
+      <div class="fld"><label>Study Start Date</label><input type="date" id="startDate"/></div>
+      <div class="fld"><label>Daily Study Hours Available</label>
+        <select id="studyHours">
+          <option value="3">3 hours/day</option>
+          <option value="4">4 hours/day</option>
+          <option value="5" selected>5 hours/day</option>
+          <option value="6">6 hours/day</option>
+          <option value="8">8 hours/day</option>
+          <option value="10">10 hours/day (intense)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="fld"><label>Preferred Study Time</label>
+        <select id="studyTime">
+          <option value="morning">Morning (6AM–12PM)</option>
+          <option value="afternoon">Afternoon (12PM–6PM)</option>
+          <option value="evening" selected>Evening (4PM–10PM)</option>
+          <option value="night">Night (8PM–2AM)</option>
+        </select>
+      </div>
+      <div class="fld"><label>Semester / Year</label>
+        <select id="semYear">
+          <option>1st Semester</option><option>2nd Semester</option>
+          <option>3rd Semester</option><option selected>4th Semester</option>
+          <option>5th Semester</option><option>6th Semester</option>
+          <option>7th Semester</option><option>8th Semester</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📚 Your Subjects & Exam Dates</h2>
+    <div class="label-row">
+      <span>Subject Name</span><span>Exam Date</span><span>Difficulty</span><span>Priority</span><span></span>
+    </div>
+    <div id="subjectsList"></div>
+    <button class="add-btn" onclick="addSubject()">+ Add Subject</button>
+    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+      <button class="btn btn-teal" onclick="generateTimetable()">📅 Generate Timetable</button>
+      <button class="btn btn-primary" id="aiScheduleBtn" onclick="generateAiSchedule()" style="display:none">✨ AI Detailed Schedule</button>
+    </div>
+  </div>
+
+  <div id="timetableOutput" style="display:none">
+    <div class="card">
+      <h2>📅 Your Personalized Study Plan</h2>
+      <div id="countdowns"></div>
+      <div class="timetable-output" id="timetableGrid"></div>
+      <div class="tips-box">
+        <h4>💡 Smart Study Tips for GCE Exams:</h4>
+        <ul>
+          <li>Study the hardest subject when your energy is highest</li>
+          <li>Use Pomodoro: 50 min study + 10 min break</li>
+          <li>Solve PYQ (Previous Year Questions) 3 days before exam</li>
+          <li>Don't study a new topic on the night before exam — revise only</li>
+          <li>Stay hydrated, sleep 7 hours minimum during exam week</li>
+        </ul>
+      </div>
+      <div id="aiScheduleOutput" class="ai-schedule"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const colors=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16'];
+let subjectCount=0;
+
+const defaultSubjects=[
+  {name:'Mathematics',date:'',diff:'hard',priority:'high'},
+  {name:'Physics',date:'',diff:'medium',priority:'high'},
+  {name:'Data Structures',date:'',diff:'hard',priority:'high'},
+  {name:'Engineering Drawing',date:'',diff:'easy',priority:'medium'},
+];
+
+function addSubject(name='',date='',diff='medium',priority='medium'){
+  subjectCount++;
+  const id='sub'+subjectCount;
+  const cidx=(subjectCount-1)%colors.length;
+  const div=document.createElement('div');
+  div.className='subject-entry';
+  div.id=id;
+  div.innerHTML=`
+    <input placeholder="Subject name" value="${name}" style="font-weight:600;"/>
+    <input type="date" value="${date}"/>
+    <select>
+      <option value="easy"${diff==='easy'?' selected':''}>😊 Easy</option>
+      <option value="medium"${diff==='medium'?' selected':''}>😐 Medium</option>
+      <option value="hard"${diff==='hard'?' selected':''}>😰 Hard</option>
+    </select>
+    <select>
+      <option value="low"${priority==='low'?' selected':''}>Low</option>
+      <option value="medium"${priority==='medium'?' selected':''}>Medium</option>
+      <option value="high"${priority==='high'?' selected':''}>High</option>
+    </select>
+    <button class="del-btn" onclick="document.getElementById('${id}').remove()">✕</button>`;
+  document.getElementById('subjectsList').appendChild(div);
+}
+
+function getSubjects(){
+  const subs=[];
+  document.querySelectorAll('.subject-entry').forEach(el=>{
+    const inputs=el.querySelectorAll('input');
+    const selects=el.querySelectorAll('select');
+    const name=inputs[0].value.trim();
+    if(!name)return;
+    subs.push({name,date:inputs[1].value,diff:selects[0].value,priority:selects[1].value});
+  });
+  return subs;
+}
+
+function generateTimetable(){
+  const subjects=getSubjects();
+  if(subjects.length===0){alert('Please add at least one subject!');return;}
+  const startDate=document.getElementById('startDate').value;
+  const hours=parseInt(document.getElementById('studyHours').value);
+  const timeSlot=document.getElementById('studyTime').value;
+
+  const start=startDate?new Date(startDate):new Date();
+  const endDate=new Date(start.getTime()+28*24*60*60*1000);
+
+  // Sort by exam date
+  const sorted=[...subjects].sort((a,b)=>{
+    if(!a.date&&!b.date)return 0;
+    if(!a.date)return 1;
+    if(!b.date)return -1;
+    return new Date(a.date)-new Date(b.date);
+  });
+
+  // Countdowns
+  const cd=document.getElementById('countdowns');
+  cd.innerHTML='';
+  const today=new Date();
+  sorted.filter(s=>s.date).forEach(s=>{
+    const d=new Date(s.date);
+    const diff=Math.ceil((d-today)/(1000*60*60*24));
+    const urgency=diff<=3?'🔴':diff<=7?'🟡':'🟢';
+    cd.innerHTML+=`<div class="countdown"><span>${urgency} <strong>${s.name}</strong> exam</span><span>${diff>0?diff+' days left':'TODAY / PAST'}</span></div>`;
+  });
+
+  // Build 4 week plan
+  const grid=document.getElementById('timetableGrid');
+  grid.innerHTML='';
+
+  const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const timeSlots={morning:'6AM–12PM',afternoon:'12PM–6PM',evening:'4PM–10PM',night:'8PM–2AM'};
+
+  for(let week=0;week<4;week++){
+    const wb=document.createElement('div');
+    wb.className='week-block';
+    wb.innerHTML=`<div class="week-title">📆 Week ${week+1}</div>`;
+
+    for(let day=0;day<7;day++){
+      const d=new Date(start.getTime()+((week*7)+day)*24*60*60*1000);
+      const isWeekend=d.getDay()===0||d.getDay()===6;
+      const dateStr=d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
+      const dayRow=document.createElement('div');
+      dayRow.className='day-row';
+      const dayName=dayNames[d.getDay()];
+
+      // Which subjects to study today
+      let sessions=[];
+      if(isWeekend){
+        sessions.push({type:'revision',label:'📖 Revision Day'});
+        const s=sorted[Math.floor(Math.random()*sorted.length)];
+        if(s)sessions.push({type:'practice',label:`📝 PYQ: ${s.name}`});
+      } else {
+        const idx=(week*5+Math.floor(day))-Math.floor(day/5)*5;
+        // Assign 1-2 subjects
+        const s1=sorted[idx%sorted.length];
+        const s2=sorted[(idx+1)%sorted.length];
+        sessions.push({type:'study',label:`📚 ${s1.name} (${s1.diff==='hard'?'2h':'1.5h'})`});
+        if(s2&&s2.name!==s1.name)sessions.push({type:'study',label:`📚 ${s2.name} (1h)`});
+        if(hours>=6)sessions.push({type:'revision',label:`🔄 Revise previous`});
+      }
+      sessions.push({type:'rest',label:'🌙 Rest/Break'});
+
+      dayRow.innerHTML=`<div class="day-name">${dayName}<br><small style="font-weight:400;opacity:.8">${dateStr}</small></div>
+        <div class="day-sessions">${sessions.map(s=>`<span class="session ${s.type}"><span class="dot"></span>${s.label}</span>`).join('')}</div>`;
+      wb.appendChild(dayRow);
+    }
+    grid.appendChild(wb);
+  }
+
+  document.getElementById('timetableOutput').style.display='block';
+  document.getElementById('aiScheduleBtn').style.display='inline-block';
+  document.getElementById('timetableOutput').scrollIntoView({behavior:'smooth'});
+}
+
+const GROQ_API_KEY = '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';
+  async function generateAiSchedule(){
+  const subjects=getSubjects();
+  const btn=document.getElementById('aiScheduleBtn');
+  btn.disabled=true;btn.textContent='⏳ Generating...';
+  const hours=document.getElementById('studyHours').value;
+  const timeSlot=document.getElementById('studyTime').value;
+
+  const subjectList=subjects.map(s=>`${s.name} (exam: ${s.date||'TBD'}, difficulty: ${s.diff}, priority: ${s.priority})`).join('\n');
+  const prompt=`Create a detailed, personalized exam study schedule for a GCE (Gaya College of Engineering) student.
+
+Student availability: ${hours} hours/day, prefers studying in the ${timeSlot}.
+
+Subjects to prepare:
+${subjectList}
+
+Create a practical 2-week day-by-day study plan with:
+1. Specific topics to cover each day per subject
+2. Time allocation per subject
+3. Revision days marked
+4. PYQ practice days (1 day before each exam)
+5. A motivational note for exam week
+
+Keep it realistic for an engineering student. Format clearly with day-wise breakdown.`;
+
+  try{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_API_KEY}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const d=await res.json();
+    const el=document.getElementById('aiScheduleOutput');
+    el.textContent=d.choices[0].message.content;
+    el.style.display='block';
+  }catch(e){
+    document.getElementById('aiScheduleOutput').textContent='Error. Please try again.';
+    document.getElementById('aiScheduleOutput').style.display='block';
+  }
+  btn.disabled=false;btn.textContent='✨ AI Detailed Schedule';
+}
+
+// Init defaults
+const today=new Date();
+document.getElementById('startDate').value=today.toISOString().split('T')[0];
+defaultSubjects.forEach(s=>addSubject(s.name,s.date,s.diff,s.priority));
+</script>
+</body>
+</html>

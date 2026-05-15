@@ -1,0 +1,294 @@
+<!-- ========================= departments.html ========================= -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering Department Portal</title>
+
+  <link rel="stylesheet" href="departments.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="header">
+
+        <div class="header-left">
+
+            <img src="images/logo_gce.jpg" alt="GCE Gaya Logo" class="logo">
+
+            <div>
+
+                <h1>Gaya College of Engineering, Gaya</h1>
+
+                <p>
+                    Affiliated to Bihar Engineering University, Patna
+                </p>
+
+            </div>
+
+        </div>
+
+        <nav class="navbar">
+
+            <a href="index.html">Home</a>
+
+            <a href="about_us.html">About</a>
+
+            <a href="department.html">Departments</a>
+
+            <a href="admission.html">Admission</a>
+
+            <a href="placement_data.html">Placement</a>
+
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+    </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Engineering Department Portal</h1>
+      <p>
+        Explore department information, faculty, curriculum,
+        labs, placements and achievements dynamically.
+      </p>
+
+      <div class="hero-buttons">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DEPARTMENT SELECTOR ================= -->
+  <section class="department-selector">
+
+    <h2 class="section-title">Select Department</h2>
+
+    <div class="department-buttons">
+
+      <button class="dept-btn active" data-dept="cse">
+        <i class="fa-solid fa-laptop-code"></i>
+        CSE
+      </button>
+
+      <button class="dept-btn" data-dept="ee">
+        <i class="fa-solid fa-bolt"></i>
+        EE
+      </button>
+
+      <button class="dept-btn" data-dept="me">
+        <i class="fa-solid fa-gears"></i>
+        ME
+      </button>
+
+      <button class="dept-btn" data-dept="ce">
+        <i class="fa-solid fa-building"></i>
+        CE
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ================= DYNAMIC CONTENT ================= -->
+
+  <section class="department-details glass">
+
+    <div class="section-header">
+      <h2 id="dept-name">Computer Science Engineering</h2>
+    </div>
+
+    <div class="details-grid">
+
+      <div class="detail-card">
+        <h3>About Department</h3>
+        <p id="about"></p>
+      </div>
+
+      <div class="detail-card">
+        <h3>Vision & Mission</h3>
+        <p id="vision"></p>
+      </div>
+
+      <div class="detail-card">
+        <h3>HOD Message</h3>
+        <p id="hod"></p>
+      </div>
+
+      <div class="detail-card">
+        <h3>Placement Statistics</h3>
+        <p id="placement"></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FACULTY ================= -->
+
+  <section class="faculty-section">
+
+    <h2 class="section-title">Faculty Members</h2>
+
+    <div class="faculty-container" id="facultyContainer"></div>
+
+  </section>
+
+  <!-- ================= CURRICULUM ================= -->
+
+  <section class="curriculum-section glass">
+
+    <h2 class="section-title">Subjects & Curriculum</h2>
+
+    <div id="subjects"></div>
+
+  </section>
+
+  <!-- ================= LABS ================= -->
+
+  <section class="labs-section">
+
+    <h2 class="section-title">Laboratories & Facilities</h2>
+
+    <div class="labs-container" id="labsContainer"></div>
+
+  </section>
+
+  <!-- ================= STUDENT INFO ================= -->
+
+  <section class="student-section glass">
+
+    <h2 class="section-title">Student Information</h2>
+
+    <div class="student-grid" id="studentInfo"></div>
+
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+
+  <section class="gallery-section">
+
+    <h2 class="section-title">Department Gallery</h2>
+
+    <div class="gallery-slider">
+
+      <button id="prevBtn">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <img id="galleryImage" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Gallery">
+
+      <button id="nextBtn">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- ================= ACHIEVEMENTS ================= -->
+
+  <section class="achievement-section glass">
+
+    <h2 class="section-title">Achievements</h2>
+
+    <div class="achievement-container" id="achievements"></div>
+
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+
+  <section class="contact-section">
+
+    <h2 class="section-title">Department Contact</h2>
+
+    <div class="contact-grid">
+
+      <div class="contact-card">
+        <h3>Contact Information</h3>
+        <p id="contactInfo"></p>
+      </div>
+
+      <div class="contact-card">
+        <iframe src="https://maps.google.com/maps?q=GCE%20Gaya&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="">
+        </iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+
+    <div class="footer-container">
+
+      <!-- College Info -->
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="footer-logo-icon">🎓</div>
+
+          <div>
+            <h3>Gaya College of Engineering</h3>
+            <p>Government of Bihar • Est. 2008</p>
+          </div>
+        </div>
+
+        <p class="footer-about">
+          A premier government engineering institute dedicated to excellence in technical education, innovation, and
+          research.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+
+        <ul>
+          <li><a href="admission.html">Admissions</a></li>
+          <li><a href="department.html">Departments</a></li>
+          <li><a href="placement_data.html">Placements</a></li>
+          <li><a href="https://pmsonline.bihar.gov.in/pms/pms_online/Default.aspx">Scholarships</a></li>
+        </ul>
+      </div>
+
+      <!-- Student Services -->
+      <div class="footer-col">
+        <h4>Student Services</h4>
+
+        <ul>
+          <li><a href="#">Hostel</a></li>
+          <li><a href="#">Library</a></li>
+          <li><a href="https://phoolbabu.space/beu_result/v1/branch_view.php">Exam Result</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h4>Contact</h4>
+
+        <p>📍 Gaya, Bihar, India</p>
+        <p>📞 +91 88779 69565</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Gaya College of Engineering, Bihar • All Rights Reserved
+    </div>
+
+  </footer>
+
+  <script src="department.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>About Us | Gaya College of Engineering, Gaya</title>
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+
+            width: 100%;
+
+            background: #0f172a;
+
+            color: white;
+
+            padding: 15px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+        }
+
+        .logo {
+
+            width: 70px;
+            height: 70px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            background: white;
+            padding: 5px;
+        }
+
+        .header-left h1 {
+
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+
+            display: flex;
+            gap: 25px;
+
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+            font-weight: 500;
+
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+
+            color: #38bdf8;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.8),
+                    rgba(15, 23, 42, 0.85)),
+                url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1600');
+
+            background-size: cover;
+            background-position: center;
+
+            min-height: 70vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            padding: 20px;
+
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.9;
+            color: #e2e8f0;
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            width: 90%;
+            max-width: 1300px;
+            margin: 30px auto 0;
+        }
+
+        .back-btn {
+
+            background: #2563eb;
+            color: white;
+
+            border: none;
+
+            padding: 12px 24px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-3px);
+        }
+
+        /* ================= SECTION ================= */
+
+        section {
+            width: 90%;
+            max-width: 1300px;
+
+            margin: 80px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            color: #0f172a;
+        }
+
+        /* ================= ABOUT ================= */
+
+        .about-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 40px;
+
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            line-height: 1.9;
+            color: #475569;
+            margin-bottom: 20px;
+        }
+
+        /* ================= VISION ================= */
+
+        .vision-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 30px;
+        }
+
+        .vision-card {
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            transition: 0.4s;
+        }
+
+        .vision-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .vision-card i {
+
+            width: 70px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 30px;
+
+            margin-bottom: 25px;
+        }
+
+        .vision-card h2 {
+            margin-bottom: 18px;
+        }
+
+        .vision-card p {
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 25px;
+        }
+
+        .stat-card {
+
+            background: white;
+
+            padding: 35px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h1 {
+            font-size: 50px;
+            color: #2563eb;
+            margin-bottom: 12px;
+        }
+
+        .stat-card p {
+            color: #475569;
+            font-size: 17px;
+        }
+
+        /* ================= PRINCIPAL ================= */
+
+        .principal-section {
+
+            background: white;
+
+            padding: 50px;
+
+            border-radius: 25px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 40px;
+
+            align-items: center;
+        }
+
+        .principal-image img {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        .principal-content h2 {
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .principal-content p {
+            color: #475569;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 60px 6% 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .footer-logo-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .footer-logo h3 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .footer-logo p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .footer-about {
+            line-height: 1.8;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 18px;
+            font-size: 17px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            text-decoration: none;
+            color: #94a3b8;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 4px;
+        }
+
+        .footer-col p {
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:768px) {
+
+            .header {
+
+                flex-direction: column;
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+            .header-left h1 {
+                font-size: 18px;
+            }
+
+            .navbar {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .principal-section {
+                padding: 30px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <img src="images/logo_gce.jpg" alt="GCE Gaya Logo" class="logo">
+
+            <div>
+
+                <h1>Gaya College of Engineering, Gaya</h1>
+
+                <p>
+                    Affiliated to Bihar Engineering University, Patna
+                </p>
+
+            </div>
+
+        </div>
+
+        <nav class="navbar">
+
+            <a href="index.html">Home</a>
+
+            <a href="about_us.html">About</a>
+
+            <a href="department.html">Departments</a>
+
+            <a href="admission.html">Admission</a>
+
+            <a href="placement_data.html">Placement</a>
+
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+    </header>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>About Gaya College of Engineering</h1>
+
+            <p>
+                Gaya College of Engineering, Gaya is committed
+                to providing quality technical education,
+                innovation, research, and industry-oriented learning
+                to prepare future engineers and leaders.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- ================= TOP BAR ================= -->
+
+    <div class="top-bar">
+
+        <button class="back-btn" onclick="goBack()">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Go Back
+
+        </button>
+
+    </div>
+
+    <!-- ================= ABOUT ================= -->
+
+    <section>
+
+        <h1 class="section-title">
+            About The College
+        </h1>
+
+        <div class="about-grid">
+
+            <div class="about-image">
+
+                <img src="images/main_bulding.avif">
+
+            </div>
+
+            <div class="about-content">
+
+                <h2>Empowering Future Engineers</h2>
+
+                <p>
+                    Gaya College of Engineering, Gaya is one of
+                    the leading engineering institutions in Bihar,
+                    offering quality education in various engineering
+                    disciplines including Computer Science,
+                    Electrical Engineering, Mechanical Engineering,
+                    and Civil Engineering.
+                </p>
+
+                <p>
+                    The college focuses on academic excellence,
+                    practical learning, innovation, research,
+                    entrepreneurship, and overall student development.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= VISION ================= -->
+
+    <section>
+
+        <h1 class="section-title">
+            Vision & Mission
+        </h1>
+
+        <div class="vision-grid">
+
+            <div class="vision-card">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <h2>Our Vision</h2>
+
+                <p>
+                    To become a center of excellence in technical
+                    education, innovation, and research that
+                    contributes to society and industry.
+                </p>
+
+            </div>
+
+            <div class="vision-card">
+
+                <i class="fa-solid fa-bullseye"></i>
+
+                <h2>Our Mission</h2>
+
+                <p>
+                    To provide industry-oriented education,
+                    develop technical skills, encourage innovation,
+                    and prepare students for successful careers.
+                </p>
+
+            </div>
+
+            <div class="vision-card">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <h2>Innovation</h2>
+
+                <p>
+                    Encouraging students to participate in
+                    research, startups, hackathons, projects,
+                    and emerging technologies.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= STATS ================= -->
+
+    <section>
+
+        <h1 class="section-title">
+            College Highlights
+        </h1>
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h1>1000+</h1>
+
+                <p>Students</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h1>4+</h1>
+
+                <p>Engineering Departments</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h1>50+</h1>
+
+                <p>Faculty Members</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h1>60%</h1>
+
+                <p>Placement Support</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= PRINCIPAL ================= -->
+
+    <section>
+
+        <div class="principal-section">
+
+            <div class="principal-image">
+
+                <img src="images/principle.png">
+
+            </div>
+
+            <div class="principal-content">
+
+                <h2>Principal's Message</h2>
+
+                <p>
+                    The institution has been continuously playing an important role in shaping the career of young
+                    students of Bihar. The Institution has produced distinguished Engineers and Technocrats in the past.
+                    In the past 10 years, GCE Gaya has earned fame and recognition due to the success of our Alumni.
+                    Now, the world around us is changing very fast. The technology has expanded beyond our imagination
+                    in the past three decades. In the present day, Technical Education has become borderless which
+                    promotes virtual, interactive and collaborative learning. We should be prepared to face the world
+                    and compete with the quality of technology education in Global arena. Technical Education enables
+                    our students to play more effective role in global knowledge economy and global job markets.
+                    Technical Education is going to remain the topmost preferred career in India and abroad in coming
+                    days.
+
+                    WTO mandate under general agreement on Trade in Services(GATS), Technical education is treated as
+                    globally tradable services. Thus, it is linked with global supply chain link of employment resulting
+                    in fair and equitable treatment to all our engineers on principle of non-discrimination.
+
+                    Recently, India has become the permanent signatory of the Washington Accord on 13th June 2014. The
+                    membership of Washington Accord is an international recognition of the quality of undergraduate
+                    engineering education offered by the member country and is an avenue to bring it into the world
+                    class category. It encourages and facilitates the mobility of engineering graduates and professional
+                    at International level. In response to Washington Accord, the National Board of Accreditation (NBA)
+                    has been setup by All India Council of Technical Education (AICTE) for the recognition of the
+                    Technical education programme. It is time to prepare ourselves and make strategy to compete with the
+                    changing world and Technology with forward looking ideas to transform GCE Gaya as NBA accredited
+                    Institution at the earliest.
+
+                </p>
+
+                <p>
+                    With Regards, <br>
+                    Dr. Rajan Sarkar <br>
+                    Email: principal@gcegaya.ac.in
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- College Info -->
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">🎓</div>
+
+                    <div>
+                        <h3>Gaya College of Engineering</h3>
+                        <p>Government of Bihar • Est. 2008</p>
+                    </div>
+                </div>
+
+                <p class="footer-about">
+                    A premier government engineering institute dedicated to excellence in technical education,
+                    innovation, and
+                    research.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+
+                <ul>
+                    <li><a href="admission.html">Admissions</a></li>
+                    <li><a href="department.html">Departments</a></li>
+                    <li><a href="placement_data.html">Placements</a></li>
+                    <li><a href="https://pmsonline.bihar.gov.in/pms/pms_online/Default.aspx">Scholarships</a></li>
+                </ul>
+            </div>
+
+            <!-- Student Services -->
+            <div class="footer-col">
+                <h4>Student Services</h4>
+
+                <ul>
+                    <li><a href="#">Hostel</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li><a href="https://phoolbabu.space/beu_result/v1/branch_view.php">Exam Result</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-col">
+                <h4>Contact</h4>
+
+                <p>📍 Gaya, Bihar, India</p>
+                <p>📞 +91 88779 69565</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Gaya College of Engineering, Bihar • All Rights Reserved
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JS ================= -->
+
+    <script>
+
+        function goBack() {
+
+            window.history.back();
+
+        }
+
+    </script>
+
+</body>
+
+</html>

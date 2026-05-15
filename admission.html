@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GCE Gaya Admission Process 2026</title>
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        /* ================= NAVBAR ================= */
+ .header {
+
+            width: 100%;
+
+            background: #0f172a;
+
+            color: white;
+
+            padding: 15px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+        }
+
+        .logo {
+
+            width: 70px;
+            height: 70px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            background: white;
+            padding: 5px;
+        }
+
+        .header-left h1 {
+
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+
+            display: flex;
+            gap: 25px;
+
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+            font-weight: 500;
+
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+
+            color: #38bdf8;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 90vh;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.8),
+                    rgba(15, 23, 42, 0.8)),
+                url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1600');
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons a {
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #111827;
+        }
+
+        .hero-buttons a:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ================= SECTION ================= */
+
+        section {
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 50px;
+            color: #0f172a;
+        }
+
+        /* ================= TIMELINE ================= */
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .timeline-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: 0.4s;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .timeline-card i {
+            font-size: 40px;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .timeline-card h3 {
+            margin-bottom: 15px;
+            color: #111827;
+        }
+
+        .timeline-card p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* ================= DOCUMENTS ================= */
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .document-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .document-card i {
+            font-size: 35px;
+            color: #0ea5e9;
+            margin-bottom: 15px;
+        }
+
+        .document-card h3 {
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .document-card p {
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        /* ================= INSTRUCTIONS ================= */
+
+        .instructions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .instruction-card {
+            background: #fee2e2;
+            padding: 25px;
+            border-left: 6px solid #ef4444;
+            border-radius: 15px;
+        }
+
+        .instruction-card i {
+            font-size: 30px;
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        /* ================= FEE TABLE ================= */
+
+        .fee-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .fee-table th,
+        .fee-table td {
+            padding: 18px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        .fee-table th {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* ================= FAQ ================= */
+
+        .faq-item {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-question {
+            padding: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            background: #0f172a;
+            color: white;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.4s;
+            background: white;
+            padding: 0 18px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 18px;
+        }
+
+        /* ================= CONTACT ================= */
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-card i {
+            font-size: 35px;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 15px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 60px 6% 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .footer-logo-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .footer-logo h3 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .footer-logo p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .footer-about {
+            line-height: 1.8;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 18px;
+            font-size: 17px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            text-decoration: none;
+            color: #94a3b8;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 4px;
+        }
+
+        .footer-col p {
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:768px) {
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <img src="images/logo_gce.jpg" alt="GCE Gaya Logo" class="logo">
+
+            <div>
+
+                <h1>Gaya College of Engineering, Gaya</h1>
+
+                <p>
+                    Affiliated to Bihar Engineering University, Patna
+                </p>
+
+            </div>
+
+        </div>
+
+        <nav class="navbar">
+
+            <a href="index.html">Home</a>
+
+            <a href="about_us.html">About</a>
+
+            <a href="department.html">Departments</a>
+
+            <a href="admission.html">Admission</a>
+
+            <a href="placement_data.html">Placement</a>
+
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+    </header>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>Admission Process</h1>
+
+            <p>
+                Welcome to Gaya College Of Engineering, Gaya.
+                Complete your admission process smoothly with all
+                important instructions, required documents,
+                and fee details.
+            </p>
+
+            <!-- <div class="hero-buttons">
+
+                <a href="#" class="btn-primary">
+                    Apply Now
+                </a>
+
+                <a href="#" class="btn-secondary">
+                    Download Prospectus
+                </a>
+
+                <a href="#" class="btn-primary">
+                    Contact Admission Cell
+                </a>
+
+            </div> -->
+
+        </div>
+
+    </section>
+
+    <!-- ================= PROCESS ================= -->
+
+    <section id="process">
+
+        <h2 class="section-title">
+            Admission Process
+        </h2>
+
+        <div class="timeline">
+
+            <div class="timeline-card">
+                <i class="fa-solid fa-user-plus"></i>
+                <h3>Step 1 - Registration</h3>
+                <p>Complete online registration through UGEAC/BCECE portal.</p>
+            </div>
+
+            <div class="timeline-card">
+                <i class="fa-solid fa-list-check"></i>
+                <h3>Step 2 - Choice Filling</h3>
+                <p>Select GCE Gaya and preferred branch carefully.</p>
+            </div>
+
+            <div class="timeline-card">
+                <i class="fa-solid fa-award"></i>
+                <h3>Step 3 - Seat Allotment</h3>
+                <p>Download allotment letter after seat confirmation.</p>
+            </div>
+
+            <div class="timeline-card">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <h3>Step 4 - Verification</h3>
+                <p>Bring all original documents for verification.</p>
+            </div>
+
+            <div class="timeline-card">
+                <i class="fa-solid fa-money-check-dollar"></i>
+                <h3>Step 5 - Fee Payment</h3>
+                <p>Pay admission fee through online payment gateway.</p>
+            </div>
+
+            <div class="timeline-card">
+                <i class="fa-solid fa-building-columns"></i>
+                <h3>Step 6 - Reporting</h3>
+                <p>Report physically at GCE Gaya campus.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= DOCUMENTS ================= -->
+
+    <section id="documents">
+
+        <h2 class="section-title">
+            Required Documents
+        </h2>
+
+        <div class="documents-grid">
+
+            <div class="document-card">
+                <i class="fa-solid fa-file"></i>
+                <h3>10th Marksheet</h3>
+                <p>Original + 3 Photocopies</p>
+            </div>
+
+            <div class="document-card">
+                <i class="fa-solid fa-file"></i>
+                <h3>12th Marksheet</h3>
+                <p>Original + 3 Photocopies</p>
+            </div>
+
+            <div class="document-card">
+                <i class="fa-solid fa-id-card"></i>
+                <h3>Aadhaar Card</h3>
+                <p>2 Photocopies Required</p>
+            </div>
+
+            <div class="document-card">
+                <i class="fa-solid fa-image"></i>
+                <h3>Passport Photos</h3>
+                <p>6 Recent Photos Required</p>
+            </div>
+
+            <div class="document-card">
+                <i class="fa-solid fa-certificate"></i>
+                <h3>Character Certificate</h3>
+                <p>Original Required</p>
+            </div>
+
+            <div class="document-card">
+                <i class="fa-solid fa-file-medical"></i>
+                <h3>Medical Certificate</h3>
+                <p>Original Required</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= INSTRUCTIONS ================= -->
+
+    <section>
+
+        <h2 class="section-title">
+            Important Instructions
+        </h2>
+
+        <div class="instructions">
+
+            <div class="instruction-card">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3>Bring Original Documents</h3>
+            </div>
+
+            <div class="instruction-card">
+                <i class="fa-solid fa-copy"></i>
+                <h3>Carry Multiple Photocopies</h3>
+            </div>
+
+            <div class="instruction-card">
+                <i class="fa-solid fa-credit-card"></i>
+                <h3>Online Fee Payment Only</h3>
+            </div>
+
+            <div class="instruction-card">
+                <i class="fa-solid fa-house"></i>
+                <h3>Hostel Admission Available</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FEES ================= -->
+
+    <section id="fees">
+
+        <h2 class="section-title">
+            Admission Fee Structure
+        </h2>
+
+        <table class="fee-table">
+
+            <tr>
+                <th>Fee Type</th>
+                <th>Amount</th>
+            </tr>
+
+            <tr>
+                <td>Admission Fee</td>
+                <td>₹2510</td>
+            </tr>
+
+            <tr>
+                <td>Tuition Fee</td>
+                <td>₹10</td>
+            </tr>
+
+            <tr>
+                <td>Hostel +Mess Fee</td>
+                <td>₹27000</td>
+            </tr>
+
+            <tr>
+                <td>Registration Fee</td>
+                <td>₹2100</td>
+            </tr>
+
+            <tr>
+                <td>Examination Fee</td>
+                <td>₹3700, 700 (SC & ST)</td>
+            </tr>
+
+            <tr>
+                <td>Other Charges</td>
+                <td>₹5,000</td>
+            </tr>
+
+        </table>
+
+    </section>
+
+    <!-- ================= FAQ ================= -->
+
+    <section id="faq">
+
+        <h2 class="section-title">
+            Frequently Asked Questions
+        </h2>
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+                How to apply?
+                <span>+</span>
+            </div>
+
+            <div class="faq-answer">
+                Apply through BCECE counseling portal.
+            </div>
+
+        </div>
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+                Hostel facility available?
+                <span>+</span>
+            </div>
+
+            <div class="faq-answer">
+                Yes, hostel facility is available for boys and girls.
+            </div>
+
+        </div>
+
+        <div class="faq-item">
+
+            <div class="faq-question">
+                Which documents are required?
+                <span>+</span>
+            </div>
+
+            <div class="faq-answer">
+                Bring all original educational and identity documents.
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+
+    <section id="contact">
+
+        <h2 class="section-title">
+            Contact Admission Cell
+        </h2>
+
+        <div class="contact-grid">
+
+            <div class="contact-card">
+
+                <i class="fa-solid fa-phone"></i>
+
+                <h3>Admission Helpline</h3>
+
+                <p>+91 ___________</p>
+
+                <br>
+
+                <h3>Email</h3>
+
+                <p>gceacademic@gmail.com</p>
+
+                <br>
+
+                <h3>Office Timing</h3>
+
+                <p>10:00 AM - 5:00 PM</p>
+
+            </div>
+
+            <iframe src="https://maps.google.com/maps?q=gce%20gaya&t=&z=13&ie=UTF8&iwloc=&output=embed">
+            </iframe>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- College Info -->
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">🎓</div>
+
+                    <div>
+                        <h3>Gaya College of Engineering</h3>
+                        <p>Government of Bihar • Est. 2008</p>
+                    </div>
+                </div>
+
+                <p class="footer-about">
+                    A premier government engineering institute dedicated to excellence in technical education,
+                    innovation, and
+                    research.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+
+                <ul>
+                    <li><a href="admission.html">Admissions</a></li>
+                    <li><a href="department.html">Departments</a></li>
+                    <li><a href="placement_data.html">Placements</a></li>
+                    <li><a href="https://pmsonline.bihar.gov.in/pms/pms_online/Default.aspx">Scholarships</a></li>
+                </ul>
+            </div>
+
+            <!-- Student Services -->
+            <div class="footer-col">
+                <h4>Student Services</h4>
+
+                <ul>
+                    <li><a href="#">Hostel</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li><a href="https://phoolbabu.space/beu_result/v1/branch_view.php">Exam Result</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-col">
+                <h4>Contact</h4>
+
+                <p>📍 Gaya, Bihar, India</p>
+                <p>📞 +91 88779 69565</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Gaya College of Engineering, Bihar • All Rights Reserved
+        </div>
+
+    </footer>
+    <!-- ================= JS ================= -->
+
+    <script>
+
+        const faqItems =
+            document.querySelectorAll(".faq-item");
+
+        faqItems.forEach(item => {
+
+            item.addEventListener("click", () => {
+
+                item.classList.toggle("active");
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

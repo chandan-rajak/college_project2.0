@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Contact Us | GCE Gaya</title>
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.8),
+                    rgba(15, 23, 42, 0.85)),
+                url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600');
+
+            background-size: cover;
+            background-position: center;
+
+            padding: 90px 20px;
+            text-align: center;
+
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: auto;
+            line-height: 1.8;
+            font-size: 18px;
+            color: #e2e8f0;
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            width: 90%;
+            max-width: 1300px;
+            margin: 30px auto 0;
+
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .back-btn {
+
+            background: #2563eb;
+            color: white;
+
+            border: none;
+            padding: 12px 22px;
+
+            border-radius: 10px;
+            cursor: pointer;
+
+            font-size: 15px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1300px;
+
+            margin: 40px auto 70px;
+
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 35px;
+        }
+
+        /* ================= CONTACT CARD ================= */
+
+        .contact-card {
+
+            background: white;
+            padding: 35px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            transition: 0.4s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .contact-card i {
+
+            width: 70px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #2563eb;
+            color: white;
+
+            border-radius: 18px;
+
+            font-size: 28px;
+
+            margin-bottom: 25px;
+        }
+
+        .contact-card h2 {
+            margin-bottom: 18px;
+            color: #0f172a;
+        }
+
+        .contact-card p {
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        /* ================= FORM ================= */
+
+        .contact-form {
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-form h2 {
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input,
+        .input-group textarea {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            outline: none;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+        }
+
+        .input-group textarea {
+            resize: none;
+            height: 140px;
+        }
+
+        .submit-btn {
+
+            background: #2563eb;
+            color: white;
+
+            border: none;
+
+            padding: 14px 25px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= MAP ================= */
+
+        .map-section {
+            width: 90%;
+            max-width: 1300px;
+            margin: auto auto 70px;
+        }
+
+        .map-section h1 {
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 40px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 450px;
+
+            border: none;
+
+            border-radius: 20px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 60px 6% 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .footer-logo-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .footer-logo h3 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .footer-logo p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .footer-about {
+            line-height: 1.8;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 18px;
+            font-size: 17px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            text-decoration: none;
+            color: #94a3b8;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 4px;
+        }
+
+        .footer-col p {
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:768px) {
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .contact-form {
+                padding: 25px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <h1>Contact Us</h1>
+
+        <p>
+            Get in touch with Gaya College Of Engineering, Gaya
+            for admissions, academics, placements, and student support.
+        </p>
+
+    </section>
+
+    <!-- ================= TOP BAR ================= -->
+
+    <div class="top-bar">
+
+        <button class="back-btn" onclick="goBack()">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Go Back
+
+        </button>
+
+    </div>
+
+    <!-- ================= CONTACT INFO ================= -->
+
+    <div class="container">
+
+        <!-- CONTACT CARD -->
+
+        <div class="contact-card">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            <h2>College Address</h2>
+
+            <p>
+                Government Engineering College Gaya,
+                Sri Krishna Nagar, Gaya,
+                Bihar - 823003
+            </p>
+
+        </div>
+
+        <!-- CONTACT CARD -->
+
+        <div class="contact-card">
+
+            <i class="fa-solid fa-phone"></i>
+
+            <h2>Phone Number</h2>
+
+            <p>+91 9876543210</p>
+
+            <p>+91 9123456780</p>
+
+        </div>
+
+        <!-- CONTACT CARD -->
+
+        <div class="contact-card">
+
+            <i class="fa-solid fa-envelope"></i>
+
+            <h2>Email Address</h2>
+
+            <p>principal@gcegaya.ac.in</p>
+
+            <p>admission@gcegaya.ac.in</p>
+
+        </div>
+
+        <!-- CONTACT CARD -->
+
+        <div class="contact-card">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <h2>Office Timing</h2>
+
+            <p>Monday - Saturday</p>
+
+            <p>10:00 AM - 5:00 PM</p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= CONTACT FORM ================= -->
+
+    <div class="container">
+
+        <div class="contact-form">
+
+            <h2>Send Message</h2>
+
+            <form>
+
+                <div class="input-group">
+
+                    <input type="text" placeholder="Your Name" required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <input type="email" placeholder="Your Email" required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <input type="text" placeholder="Subject" required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <textarea placeholder="Your Message" required></textarea>
+
+                </div>
+
+                <button class="submit-btn">
+
+                    Send Message
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ================= MAP ================= -->
+
+    <div class="map-section">
+
+        <h1>Find Us On Map</h1>
+
+        <iframe src="https://maps.google.com/maps?q=gce%20gaya&t=&z=13&ie=UTF8&iwloc=&output=embed">
+        </iframe>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- College Info -->
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">🎓</div>
+
+                    <div>
+                        <h3>Gaya College of Engineering</h3>
+                        <p>Government of Bihar • Est. 2008</p>
+                    </div>
+                </div>
+
+                <p class="footer-about">
+                    A premier government engineering institute dedicated to excellence in technical education,
+                    innovation, and
+                    research.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+
+                <ul>
+                    <li><a href="admission.html">Admissions</a></li>
+                    <li><a href="department.html">Departments</a></li>
+                    <li><a href="placement_data.html">Placements</a></li>
+                    <li><a href="https://pmsonline.bihar.gov.in/pms/pms_online/Default.aspx">Scholarships</a></li>
+                </ul>
+            </div>
+
+            <!-- Student Services -->
+            <div class="footer-col">
+                <h4>Student Services</h4>
+
+                <ul>
+                    <li><a href="#">Hostel</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li><a href="https://phoolbabu.space/beu_result/v1/branch_view.php">Exam Result</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-col">
+                <h4>Contact</h4>
+
+                <p>📍 Gaya, Bihar, India</p>
+                <p>📞 +91 88779 69565</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Gaya College of Engineering, Bihar • All Rights Reserved
+        </div>
+
+    </footer>
+
+    <!-- ================= JS ================= -->
+
+    <script>
+
+        function goBack() {
+
+            window.history.back();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
